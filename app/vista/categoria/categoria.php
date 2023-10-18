@@ -98,13 +98,6 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
       <div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i></div>
     </div> -->
 
-    <div id="globalToast" class="bs-toast toast toast-placement-ex m-2 top-0 end-0 bg-danger" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
-      <div class="toast-header">
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-      <div class="toast-body">La categoria Varios ya se encuentra registrada</div>
-    </div>
-
   </div>
   <?php echo $oAccesoVista->cargarJs(); ?>
   <script type="text/javascript">
