@@ -39,9 +39,9 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                       <div class="row">
                         <div class="col-12">
                           <label for="cbotipodocumento" class="form-label">Tipo Doc.</label>
-                          <select name="cbotipodocumento" id="cbotipodocumento" class="form-control first-input">
-                            <option value="DNI">DNI</option>
-                            <option value="RUC">RUC</option>
+                          <select name="cbotipodocumento" id="cbotipodocumento" class="form-control">
+                            <option value="1">DNI</option>
+                            <option value="2">RUC</option>
                           </select>
                         </div>
                         <div class="col-12">
@@ -50,19 +50,19 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                         </div>
                         <div class="col-12">
                           <label for="txtnombre" class="form-label">Nombre</label>
-                          <input type="text" id="txtnombre" name="txtnombre" class="form-control first-input" required />
+                          <input type="text" id="txtnombre" name="txtnombre" class="form-control" required />
                         </div>
                         <div class="col-12">
                           <label for="txtdireccion" class="form-label">Dirección</label>
-                          <input type="text" id="txtdireccion" name="txtdireccion" class="form-control first-input" required />
+                          <input type="text" id="txtdireccion" name="txtdireccion" class="form-control" required />
                         </div>
                         <div class="col-12">
                           <label for="txttelefono" class="form-label">Telefono</label>
-                          <input type="text" id="txttelefono" name="txttelefono" class="form-control first-input" />
+                          <input type="text" id="txttelefono" name="txttelefono" class="form-control" />
                         </div>
                         <div class="col-12">
                           <label for="txtemail" class="form-label">Email</label>
-                          <input type="text" id="txtemail" name="txtemail" class="form-control first-input" />
+                          <input type="text" id="txtemail" name="txtemail" class="form-control" />
                         </div>
                       </div>
                     </div>
