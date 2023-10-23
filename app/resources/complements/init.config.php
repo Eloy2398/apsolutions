@@ -9,3 +9,9 @@
 	window.path_request = window.originfull + 'util/request/index.php';
 	window.file_search_autocomplete = window.originfull + 'util/search_autocomplete.php';
 </script>
+
+<style>
+	div:where(.swal2-container) {
+		z-index: 9999 !important;
+	}
+</style>
