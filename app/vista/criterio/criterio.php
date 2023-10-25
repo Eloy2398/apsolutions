@@ -46,10 +46,10 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                         <div class="col-7">
                             <div class="input-group">
                                 <div class="input-group-append">
-                                    <input type="text" class="form-control" name="txtcaracteristicavalor" id="txtcaracteristicavalor" placeholder="Ingrese opciones">
+                                    <input type="text" class="form-control" name="txtopcionnombre" id="txtopcionnombre" placeholder="Ingrese opciones">
                                 </div>
                                 <div class="input-group-append ms-2">
-                                    <button type="button" class="btn btn-outline-info" name="btncaracteristicaagregar" id="btncaracteristicaagregar">
+                                    <button type="button" class="btn btn-outline-info" name="btnopcionagregar" id="btnopcionagregar">
                                     <i class="bx bx-plus"></i>
                                     </button>
                                 </div>
