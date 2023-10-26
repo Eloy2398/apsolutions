@@ -26,46 +26,32 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
             <?php include '../../resources/complements/partials/header.php'; ?>
 
             <!-- Modal -->
-            <div class="modal fade" id="mdlCriterio" tabindex="-1" aria-hidden="true">
+            <div class="modal fade" id="mdlUsuario" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title">Nuevo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                  <form id="frmcriterio">
+                  <form id="frmusuario">
                     <input type="hidden" name="hddid" id="hddid" value="">
                     <div class="modal-body">
-                      <div class="row mb-3">
+                      <div class="row">
+                        <div class="col-12">
+                          <label for="cboperfil" class="form-label">Perfil</label>
+                          <select id="cboperfil" name="cboperfil" class="form-control" required></select>
+                        </div>
+                        <div class="col-12">
+                          <label for="txtusuario" class="form-label">Usuario</label>
+                          <input type="text" id="txtusuario" name="txtusuario" class="form-control first-input" required />
+                        </div>
+                        <div class="col-12">
+                          <label for="txtclave" class="form-label">Clave</label>
+                          <input type="password" id="txtclave" name="txtclave" class="form-control" required />
+                        </div>
                         <div class="col-12">
                           <label for="txtnombre" class="form-label">Nombre</label>
-                          <input type="text" id="txtnombre" name="txtnombre" class="form-control first-input" required />
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-7">
-                            <div class="input-group">
-                                <div class="input-group-append">
-                                    <input type="text" class="form-control" name="txtopcionnombre" id="txtopcionnombre" placeholder="Ingrese opciones">
-                                </div>
-                                <div class="input-group-append ms-2">
-                                    <button type="button" class="btn btn-outline-info" name="btnopcionagregar" id="btnopcionagregar">
-                                    <i class="bx bx-plus"></i>
-                                    </button>
-                                </div>
-                            </div>            
-                            <table class="table mt-1" id="opcionTable">
-                            <script type="handlebars-x" id="tpl_opcionTable">
-                                {{#this}}
-                                <tr>
-                                    <td>{{descripcion}}</td>
-                                    <td align="center">
-                                    <i class="bx bx-trash"></i>
-                                    </td>
-                                </tr>
-                                {{/this}}
-                            </script>
-                            </table>
+                          <input type="text" id="txtnombre" name="txtnombre" class="form-control" required />
                         </div>
                       </div>
                     </div>
@@ -83,38 +69,43 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                 <div class="card-title-elements">
                   <h5 class="card-title mb-0">Mis registros</h5>
                 </div>
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#mdlCriterio"><i class="bx bx-plus"></i> Agregar</button>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#mdlUsuario"><i class="bx bx-plus"></i> Agregar</button>
               </div>
               <div class="card-body table-responsive text-nowrap">
                 <table class="table">
                   <thead>
                     <tr>
+                      <th>Usuario</th>
                       <th>Nombre</th>
-                      <th>Opciones</th>
+                      <th>Perfil</th>
+                      <th class="text-center">Bloquear</th>
                       <th></th>
                     </tr>
                   </thead>
-                  <tbody class="table-border-bottom-0" id="tbodyTable">
+                  <tbody class="table-border-bottom-0" id="div_table">
+                    <script type="handlebars-x" id="tpl_table">
+                      {{#this}}
+                        <tr id="{{id}}">
+                          <td>{{usuario}}</td>
+                          <td>{{nombre}}</td>
+                          <td>{{perfilNombre}}</td>
+                          <td align="center">
+                            {{#if_ bloqueado '==' '1'}}
+                                <button type="button" class="btn btn-secondary btn-xs">Desbloquear</button>
+                            {{else}}
+                                <button type="button" class="btn btn-secondary btn-xs">Bloquear</button>
+                            {{/if_}}
+                          </td>
+                          <td class="text-center">
+                            <button data-action="editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" class="btn options"><i class="bx bx-edit-alt me-1"></i></button>
+                            <button data-action="eliminar" data-bs-toggle="tooltip" data-bs-original-title="Eliminar" class="btn options"><i class="bx bx-trash me-1"></i></button>
+                          </td>
+                        </tr>
+                      {{/this}}
+                    </script>
                   </tbody>
                 </table>
               </div>
-
-              <script type="handlebars-x" id="tpl_table">
-                {{#this}}
-                  <tr id="{{id}}">
-                    <td>{{nombre}}</td>
-                    <td>
-                    {{#each criterioopcionList}}
-                      <span>- {{descripcion}}</span><br>
-                    {{/each}}
-                    </td>
-                    <td align="center">
-                      <button data-action="editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" class="btn options"><i class="bx bx-edit-alt me-1"></i></button>
-                      <button data-action="eliminar" data-bs-toggle="tooltip" data-bs-original-title="Eliminar" class="btn options"><i class="bx bx-trash me-1"></i></button>
-                    </td>
-                  </tr>
-                {{/this}}
-              </script>
 
               <script type="handlebars-x" id="tpl_combo">
                 <option value="">Seleccione</option>
@@ -141,8 +132,7 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
 
   </div>
   <?php echo $oAccesoVista->cargarJs(); ?>
-
-  <script type="text/javascript" src="criterio.js"></script>
+  <script type="text/javascript" src="usuario.js"></script>
 </body>
 
 </html>

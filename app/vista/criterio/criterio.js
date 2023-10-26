@@ -65,24 +65,24 @@ $(function(){
     }
 
     function criterioOpcionAgregar(){
-        let nombre = String(DOM.txtopcionnombre.val()).trim();
-        if (nombre == '') return DOM.txtopcionnombre.focus();
+        let descripcion = String(DOM.txtopcionnombre.val()).trim();
+        if (descripcion == '') return DOM.txtopcionnombre.focus();
 
-        let nombreExiste = false;
+        let descripcionExiste = false;
 
         DOM.opcionTable.find('tr').each((ind, element) => {
-            if (String(element.children[0].innerText).trim() == nombre) {
-                nombreExiste = true;
+            if (String(element.children[0].innerText).trim() == descripcion) {
+                descripcionExiste = true;
                 return;
             }
         });
 
-        if (!nombreExiste) {
-            DOM.opcionTable.append(tpl.opcionTable([{ nombre: nombre }]));
+        if (!descripcionExiste) {
+            DOM.opcionTable.append(tpl.opcionTable([{ descripcion: descripcion }]));
             DOM.txtopcionnombre.val('').focus();
         } else {
             DOM.txtopcionnombre.focus();
-            toastr.error(`El criterio opción ${nombre} existente`);
+            toastr.error(`El criterio opción ${descripcion} existente`);
         }
     }
 
@@ -108,11 +108,11 @@ $(function(){
 
         DOM.opcionTable.find('tr').each((ind, element) => {
             let elementsTr = element.children;
-            let nombre = String(elementsTr[0].innerText).trim();
+            let descripcion = String(elementsTr[0].innerText).trim();
 
-            if (nombre != '') {
+            if (descripcion != '') {
                 arrList.push({
-                    descripcion: nombre
+                    descripcion: descripcion
                 });
             }
         });
@@ -125,9 +125,9 @@ $(function(){
             DOM.mdlCriterio.find('.modal-title').text('Editar');
             
             let xhrdata = xhr.data, elementsForm = DOM.frmcriterio[0].elements;
-            console.log(elementsForm);
             UtilGlobal.setDataFormulario(elementsForm, xhrdata);
             elementsForm.hddid.value = id;
+            DOM.opcionTable.html(tpl.opcionTable(xhrdata.criterioopcionList));
 
             DOM.mdlCriterio.modal('show');
         }, undefined, [id]);
