@@ -1,6 +1,7 @@
 $(function () {
     var DOM = {},
-        tpl = {};
+        tpl = {},
+        data = {};
 
     function init() {
         setDOM();
@@ -16,6 +17,7 @@ $(function () {
         DOM.tbodyTable = $('#tbodyTable');
         DOM.frmproducto = $('#frmproducto');
         DOM.caracTable = $('#caracTable');
+        DOM.tbodyCriterioopcion = $('#tbodyCriterioopcion');
         DOM.txtcaracteristicanombre = $('#txtcaracteristicanombre');
         DOM.txtcaracteristicavalor = $('#txtcaracteristicavalor');
         DOM.btncaracteristicaagregar = $('#btncaracteristicaagregar');
@@ -34,9 +36,12 @@ $(function () {
             DOM.frmproducto[0].reset();
         }).on('hide.bs.modal', function (ev) {
             DOM.caracTable.html('');
+            DOM.tbodyCriterioopcion.html(tpl.criterioopcion(data.criterioopcionList));
+            DOM.frmproducto.find('.nav-item:eq(0) button').tab('show');
             DOM.frmproducto.children('.modal-footer').find('input, button').attr('disabled', false);
             DOM.frmproducto.validate().resetForm();
             DOM.mdlProducto.find('.modal-title').text('Nuevo');
+            document.getElementById('txtstock').disabled = false;
         });
 
         DOM.frmproducto.validate({
@@ -64,6 +69,13 @@ $(function () {
         DOM.caracTable.on('click', '.bx-trash', function (ev) {
             this.parentNode.parentNode.remove();
         });
+
+        DOM.tbodyCriterioopcion.on('change', 'input[type=checkbox]', function (ev) {
+            cambiarCheckedCriterioopcion(this);
+        });
+
+        UtilNumber.setFormatNumberDecimal(document.getElementById('txtprecio'));
+        UtilNumber.setFormatNumber(document.getElementById('txtstock'));
     }
 
     function caracteristicaAgregar() {
@@ -90,6 +102,10 @@ $(function () {
             DOM.txtcaracteristicanombre.focus();
             toastr.error(`Característica ${nombre} existente`);
         }
+    }
+
+    function cambiarCheckedCriterioopcion(iCheckbox) {
+        $(iCheckbox.parentNode.parentNode).find('select').attr('disabled', !iCheckbox.checked);
     }
 
     function guardar(form) {
@@ -120,17 +136,26 @@ $(function () {
         });
     }
 
-    obtenerProductoCriterioopcionList = function () {
-        return [];
+    function obtenerProductoCriterioopcionList() {
+        let arrList = [];
+
+        DOM.tbodyCriterioopcion.children().each((ind, trElement) => {
+            let tdElements = trElement.children;
+            if (tdElements[2].children.chkcriterioopcion.checked) {
+                arrList.push(Number(tdElements[1].children.cbocriterioopcion.value));
+            }
+        });
+
+        return arrList;
     }
 
     function obtenerProductoCaracteristicaList() {
         let arrList = [];
 
-        DOM.caracTable.find('tr').each((ind, element) => {
-            let elementsTr = element.children;
-            let nombre = String(elementsTr[0].innerText).trim();
-            let valor = String(elementsTr[1].innerText).trim();
+        DOM.caracTable.find('tr').each((ind, trElement) => {
+            let tdElements = trElement.children;
+            let nombre = String(tdElements[0].innerText).trim();
+            let valor = String(tdElements[1].innerText).trim();
 
             if (nombre != '' && valor != '') {
                 arrList.push({
@@ -144,10 +169,12 @@ $(function () {
     }
 
     function leerDatos(id) {
-        send_ajxur_request('ApiGet', 'leer', function(xhr) {
-            DOM.mdlProducto.find('.modal-title').text('Editar');
-            
-            let xhrdata = xhr.data, elementsForm = DOM.frmproducto[0].elements;
+        send_ajxur_request('ApiGet', 'leer', function (xhr) {
+            document.getElementById('txtstock').disabled = true;
+
+            let xhrdata = xhr.data,
+                elementsForm = DOM.frmproducto[0].elements,
+                dataProductoCriterioopcionList = xhrdata.productoCriterioopcionList;
 
             UtilGlobal.setDataFormulario(elementsForm, xhrdata);
             elementsForm.hddid.value = id;
@@ -156,6 +183,24 @@ $(function () {
 
             DOM.caracTable.html(tpl.caracTable(xhrdata.productoCaracteristicaList));
 
+            DOM.tbodyCriterioopcion.find('select').each((ind, selectElement) => {
+                let valorOpcion = null;
+
+                Array.from(selectElement.options).forEach(option => {
+                    if (dataProductoCriterioopcionList.includes(Number(option.value))) {
+                        valorOpcion = option.value;
+                        return;
+                    }
+                });
+
+                if (valorOpcion != null) {
+                    selectElement.parentNode.nextElementSibling.children.chkcriterioopcion.checked = true;
+                    selectElement.value = valorOpcion;
+                    selectElement.disabled = false;
+                }
+            });
+
+            DOM.mdlProducto.find('.modal-title').text('Editar');
             DOM.mdlProducto.modal('show');
         }, undefined, [id]);
     }
@@ -179,8 +224,10 @@ $(function () {
 
     function cargarDatosExtra() {
         send_ajxur_request('ApiGet', 'cargarDatosExtra', function (xhr) {
-            document.getElementById('cbocategoria').innerHTML = tpl.combo(xhr.data.categoriaList);
-            document.getElementById('cbomarca').innerHTML = tpl.combo(xhr.data.marcaList);
+            document.getElementById('cbocategoria').innerHTML = tpl.combo({ optionHolder: 'Seleccione', data: xhr.data.categoriaList });
+            document.getElementById('cbomarca').innerHTML = tpl.combo({ optionHolder: 'Seleccione', data: xhr.data.marcaList });
+            data.criterioopcionList = xhr.data.criterioopcionList;
+            DOM.tbodyCriterioopcion.html(tpl.criterioopcion(data.criterioopcionList));
         });
     }
 

@@ -81,7 +81,33 @@
                   </script>
                 </table>
               </div>
-              <div class="tab-pane fade" id="navs-top-3" role="tabpanel"></div>
+              <div class="tab-pane fade" id="navs-top-3" role="tabpanel">
+                <table class="table table-sm mt-1">
+                  <thead>
+                    <tr>
+                      <th>Criterio</th>
+                      <th colspan="2">Opción</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyCriterioopcion">
+                    <script type="handlebars-x" id="tpl_criterioopcion">
+                      {{#this}}
+                        <tr id="{{id}}">
+                          <td><small>{{nombre}}</small></td>
+                          <td>
+                            <select name="cbocriterioopcion" id="cbocriterioopcion{{@index}}" class="form-control form-control-sm control-criterio-opcion" disabled>
+                              {{#criterioopcionList}}
+                                <option value="{{id}}">{{descripcion}}</option>
+                              {{/criterioopcionList}}
+                            </select>
+                          </td>
+                          <td><input type="checkbox" name="chkcriterioopcion" id="chkcriterioopcion{{@index}}"></td>
+                        </tr>
+                      {{/this}}
+                    </script>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
