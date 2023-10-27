@@ -16,6 +16,7 @@ class Sesion
         $_SESSION["usuario"] = array(
             "token" => $token,
             "id_profile" => $decoded->id_profile,
+            "username" => $decoded->sub,
             "url_redirect" => (new NavigationMenu($decoded->id_profile))->getAll()[0]["url"]
         );
 

@@ -20,11 +20,9 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
 
       <div class="layout-page">
         <?php include '../../resources/complements/partials/navbar.php'; ?>
-
         <div class="content-wrapper">
           <div class="container-xxl flex-grow-1 container-p-y">
             <?php include '../../resources/complements/partials/header.php'; ?>
-
             <!-- Modal -->
             <div class="modal fade" id="mdlUsuario" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog" role="document">
@@ -33,6 +31,7 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                     <h5 class="modal-title">Nuevo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
+                  <input type="hidden" name="hdd_username" id="hdd_username" value="<?php echo $_SESSION["usuario"]['username'] ?>">
                   <form id="frmusuario">
                     <input type="hidden" name="hddid" id="hddid" value="">
                     <div class="modal-body">
@@ -91,14 +90,14 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                           <td>{{perfilNombre}}</td>
                           <td align="center">
                             {{#if_ bloqueado '==' '1'}}
-                                <button type="button" class="btn btn-secondary btn-xs">Desbloquear</button>
+                                <button data-action="desbloquear" type="button" class="btn btn-secondary btn-sm"><i class="bx bx-check me-1"></i> Desbloquear</button>
                             {{else}}
-                                <button type="button" class="btn btn-secondary btn-xs">Bloquear</button>
+                                <button data-action="bloquear" type="button" class="btn btn-secondary btn-sm"><i class="bx bx-block me-1"></i> Bloquear</button>
                             {{/if_}}
                           </td>
                           <td class="text-center">
                             <button data-action="editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" class="btn options"><i class="bx bx-edit-alt me-1"></i></button>
-                            <button data-action="eliminar" data-bs-toggle="tooltip" data-bs-original-title="Eliminar" class="btn options"><i class="bx bx-trash me-1"></i></button>
+                            <button data-action="eliminar" data-perfilId="{{perfilId}}" data-bs-toggle="tooltip" data-bs-original-title="Eliminar" class="btn options"><i class="bx bx-trash me-1"></i></button>
                           </td>
                         </tr>
                       {{/this}}
