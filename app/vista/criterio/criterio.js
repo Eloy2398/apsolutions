@@ -82,7 +82,7 @@ $(function(){
             DOM.txtopcionnombre.val('').focus();
         } else {
             DOM.txtopcionnombre.focus();
-            toastr.error(`El criterio opción ${descripcion} existente`);
+            toastr.error(`Opción ${descripcion} existente`);
         }
     }
 

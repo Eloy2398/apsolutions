@@ -1,8 +1,8 @@
-$(function(){
+$(function () {
     var DOM = {},
         tpl = {};
 
-    function init(){
+    function init() {
         setDOM();
         setTemplates();
         setEvents();
@@ -82,7 +82,7 @@ $(function(){
     }
 
     function bloquear(id, bloqueo) {
-        send_ajxur_request('ApiPut', 'bloquear', function(xhr) {
+        send_ajxur_request('ApiPut', 'bloquear', function (xhr) {
             swal.fire('Éxito', xhr.message, 'success');
             listar();
         }, {

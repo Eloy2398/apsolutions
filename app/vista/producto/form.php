@@ -57,9 +57,9 @@
               </div>
               <div class="tab-pane fade" id="navs-top-2" role="tabpanel">
                 <div class="input-group">
-                  <input type="text" class="form-control rounded" name="txtcaracteristicanombre" id="txtcaracteristicanombre">
+                  <input type="text" class="form-control rounded" name="txtcaracteristicanombre" id="txtcaracteristicanombre" placeholder="Característica">
                   <div class="input-group-append ms-1 w-50">
-                    <input type="text" class="form-control" name="txtcaracteristicavalor" id="txtcaracteristicavalor">
+                    <input type="text" class="form-control" name="txtcaracteristicavalor" id="txtcaracteristicavalor" placeholder="Valor">
                   </div>
                   <div class="input-group-append ms-2">
                     <button type="button" class="btn btn-outline-info" name="btncaracteristicaagregar" id="btncaracteristicaagregar">
@@ -67,13 +67,13 @@
                     </button>
                   </div>
                 </div>
-                <table class="table mt-1" id="caracTable">
+                <table class="table table-sm table-bordered mt-2" id="caracTable">
                   <script type="handlebars-x" id="tpl_caracTable">
                     {{#this}}
                       <tr>
                         <td>{{nombre}}</td>
                         <td>{{valor}}</td>
-                        <td align="center">
+                        <td align="right">
                           <i class="bx bx-trash"></i>
                         </td>
                       </tr>

@@ -43,29 +43,31 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-7">
-                            <div class="input-group">
-                                <div class="input-group-append">
-                                    <input type="text" class="form-control" name="txtopcionnombre" id="txtopcionnombre" placeholder="Ingrese opciones">
-                                </div>
-                                <div class="input-group-append ms-2">
-                                    <button type="button" class="btn btn-outline-info" name="btnopcionagregar" id="btnopcionagregar">
-                                    <i class="bx bx-plus"></i>
-                                    </button>
-                                </div>
-                            </div>            
-                            <table class="table mt-1" id="opcionTable">
+                        <div class="col-12">
+                          <div class="input-group">
+                            <div class="input-group-append">
+                              <input type="text" class="form-control" name="txtopcionnombre" id="txtopcionnombre" placeholder="Ingrese opción">
+                            </div>
+                            <div class="input-group-append ms-2">
+                              <button type="button" class="btn btn-outline-info" name="btnopcionagregar" id="btnopcionagregar">
+                                <i class="bx bx-plus"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <table class="table table-sm table-bordered mt-2" id="opcionTable">
                             <script type="handlebars-x" id="tpl_opcionTable">
-                                {{#this}}
+                              {{#this}}
                                 <tr>
-                                    <td>{{descripcion}}</td>
-                                    <td align="center">
+                                  <td>{{descripcion}}</td>
+                                  <td align="right">
                                     <i class="bx bx-trash"></i>
-                                    </td>
+                                  </td>
                                 </tr>
-                                {{/this}}
+                              {{/this}}
                             </script>
-                            </table>
+                          </table>
                         </div>
                       </div>
                     </div>
@@ -104,9 +106,9 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                   <tr id="{{id}}">
                     <td>{{nombre}}</td>
                     <td>
-                    {{#each criterioopcionList}}
-                      <span>- {{descripcion}}</span><br>
-                    {{/each}}
+                      {{#each criterioopcionList}}
+                        <span>- {{descripcion}}</span><br>
+                      {{/each}}
                     </td>
                     <td align="center">
                       <button data-action="editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" class="btn options"><i class="bx bx-edit-alt me-1"></i></button>
