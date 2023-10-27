@@ -2,7 +2,7 @@
 require_once '../../config/init.php';
 
 $oAccesoVista = new model\AccesoVista();
-$oVista = $oAccesoVista->obtenerVista('default', ['controller']);
+$oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number']);
 
 ?>
 <!DOCTYPE html>
@@ -70,11 +70,13 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                 {{/this}}
               </script>
 
-              <script type="handlebars-x" id="tpl_combo">
-                <option value="">Seleccione</option>
-                {{#this}}
+              <script type="handlebars-x" id="tpl_combo" partial="true">
+                {{#if optionHolder}}
+                  <option value="">{{optionHolder}}</option>
+                {{/if}}
+                {{#data}}
                   <option value="{{id}}">{{nombre}}</option>
-                {{/this}}
+                {{/data}}
               </script>
 
             </div>
