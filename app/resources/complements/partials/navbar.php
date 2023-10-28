@@ -39,8 +39,8 @@
                   </div>
                 </div>
                 <div class="flex-grow-1">
-                  <span class="fw-medium d-block">John Doe</span>
-                  <small class="text-muted">Admin</small>
+                  <span class="fw-medium d-block"><?= $_SESSION['usuario']['name']; ?></span>
+                  <small class="text-muted"><?= $_SESSION['usuario']['name_profile']; ?></small>
                 </div>
               </div>
             </a>
