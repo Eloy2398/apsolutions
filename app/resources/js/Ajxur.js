@@ -82,6 +82,10 @@ var Ajxur = {
         type: type,
       };
 
+      if (params.data_params) {
+        objAjax.data = params.data_params;
+      }
+
       if (params.data_in) {
         objAjax.contentType = 'application/json';
         objAjax.data = JSON.stringify(Ajxur.convertDataToJSON(params.data_in));
