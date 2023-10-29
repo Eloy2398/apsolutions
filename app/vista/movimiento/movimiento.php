@@ -2,7 +2,7 @@
 require_once '../../config/init.php';
 
 $oAccesoVista = new model\AccesoVista();
-$oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number']);
+$oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', 'util-array']);
 
 ?>
 <!DOCTYPE html>
