@@ -10,10 +10,11 @@ $(function () {
         setEvents();
 
         listar();
-        cargarDatosExtra();
     }
 
     function setDOM() {
+        DOM.mdlMovimiento = $('#mdlMovimiento');
+        DOM.frmmovimiento = $('#frmmovimiento');
         DOM.tbodyTable = $('#tbodyTable');
         DOM.txtbusproducto = $('#txtbusproducto');
         DOM.txtbuscantidad = $('#txtbuscantidad');
@@ -31,6 +32,39 @@ $(function () {
         UtilNumber.setFormatNumberDecimal(DOM.txtbusprecio);
         UtilNumber.setFormatNumber(DOM.txtbuscantidad);
 
+        setAutocompleteBuscarPersona();
+        setAutocompleteBuscarProducto();
+
+        DOM.mdlMovimiento.on('shown.bs.modal', function (ev) {
+            DOM.frmmovimiento.find('.first-input').focus();
+        }).on('hidden.bs.modal', function (ev) {
+            DOM.frmmovimiento.find('input[type=hidden]').val('');
+            // DOM.frmmovimiento.find('select[name=cboestado]').parent().hide();
+            DOM.frmmovimiento[0].reset();
+        }).on('hide.bs.modal', function (ev) {
+            resetValores();
+            DOM.frmmovimiento.children('.modal-footer').find('button').attr('disabled', false);
+            DOM.frmmovimiento.validate().resetForm();
+            DOM.mdlMovimiento.find('.modal-title').text('Nuevo');
+        });
+
+        DOM.frmmovimiento.validate({
+            submitHandler: function (form) {
+                guardar(form);
+            },
+            rules: UtilGlobal.getRulesFormValidate$(DOM.frmmovimiento)
+        });
+
+        DOM.tbodyDetalle.on('click', '.bx-trash', function (ev) {
+            eliminarDetalle(this.parentNode.parentNode.id);
+        });
+
+        document.getElementById('btnagregar').addEventListener('click', function (ev) {
+            agregarDetalle();
+        });
+    }
+
+    function setAutocompleteBuscarPersona() {
         DOM.txtanexo.autocomplete({
             minLength: 3,
             source: function (request, response) {
@@ -56,7 +90,18 @@ $(function () {
                     + "</div>")
                 .appendTo(ul);
         }
+    }
 
+    function establecerIdpersona(pData) {
+        if (pData == null) {
+            data.personaId = 0;
+        } else {
+            data.personaId = pData.id;
+            setTimeout(() => DOM.txtbusproducto.focus(), 100);
+        }
+    }
+
+    function setAutocompleteBuscarProducto() {
         DOM.txtbusproducto.autocomplete({
             minLength: 3,
             source: function (request, response) {
@@ -82,19 +127,6 @@ $(function () {
                     + "</div>")
                 .appendTo(ul);
         }
-
-        document.getElementById('btnagregar').addEventListener('click', function (ev) {
-            agregarDetalle();
-        });
-    }
-
-    function establecerIdpersona(pData) {
-        if (pData == null) {
-            data.personaId = 0;
-        } else {
-            data.personaId = pData.id;
-            setTimeout(() => DOM.txtbusproducto.focus(), 100);
-        }
     }
 
     function establecerIdproducto(pData) {
@@ -118,14 +150,19 @@ $(function () {
             return;
         }
 
-        arrDetalle.push({
-            productoId: data.productoId,
-            productoNombre: DOM.txtbusproducto.val(),
-            cantidad: DOM.txtbuscantidad.val(),
-            precio: DOM.txtbusprecio.val(),
-        });
+        let pos = obtenerPosArrDetalle(data.productoId);
+        if (pos == -1) {
+            arrDetalle.push({
+                id: data.productoId,
+                nombre: DOM.txtbusproducto.val(),
+                cantidad: Number(DOM.txtbuscantidad.val()),
+                precio: DOM.txtbusprecio.val(),
+            });
+        } else {
+            arrDetalle[pos].cantidad += Number(DOM.txtbuscantidad.val());
+        }
 
-        DOM.tbodyDetalle.html(tpl.detalle(arrDetalle));
+        renderArrDetalle();
 
         DOM.txtbusproducto.val('').focus();
         DOM.txtbuscantidad.val('');
@@ -133,14 +170,76 @@ $(function () {
         data.productoId = 0;
     }
 
+    function eliminarDetalle(id) {
+        if (id > 0) {
+            let pos = obtenerPosArrDetalle(id);
+            if (pos > -1) arrDetalle.splice(pos, 1);
+            renderArrDetalle();
+        } else {
+            toastr.error('Indicador no encontrado');
+        }
+    }
+
+    function obtenerPosArrDetalle(id) {
+        return UtilArray.getPosition(arrDetalle, id, 'id');
+    }
+
+    function renderArrDetalle() {
+        DOM.tbodyDetalle.html(tpl.detalle(arrDetalle));
+    }
+
+    function resetValores() {
+        data = {};
+        arrDetalle = [];
+        renderArrDetalle();
+    }
+
+    function guardar(form) {
+        UtilNotification.confirm(function (isConfirm) {
+            if (isConfirm) {
+                UtilNotification.loading('Guardando datos', 'Espere un momento, por favor...');
+                DOM.frmmovimiento.children('.modal-footer').find('button').attr('disabled', true);
+
+                send_ajxur_request('ApiPost', 'guardar', (xhr) => {
+                    swal.fire('Éxito', xhr.message, 'success');
+                    DOM.mdlMovimiento.modal('hide');
+                    listar();
+                }, {
+                    fecha: form.elements.txtfecha.value,
+                    tipo: form.elements.cbotipo.value,
+                    descripcion: form.elements.txtdescripcion.value,
+                    persona: {
+                        id: data.personaId
+                    },
+                    // cotizacion: {
+                    //     id: 0
+                    // },
+                    movimientodetalleList: obtenerMovimientodetalleList(),
+                });
+            }
+        });
+    }
+
+    function obtenerMovimientodetalleList() {
+        let arrDetalleReturn = [];
+
+        arrDetalle.forEach((item) => {
+            arrDetalleReturn.push({
+                producto: {
+                    id: item.id
+                },
+                cantidad: item.cantidad,
+                precio: item.precio,
+            });
+        });
+
+        return arrDetalleReturn;
+    }
+
     function listar() {
         send_ajxur_request('ApiGet', 'listar', (xhr) => {
             DOM.tbodyTable.html(tpl.table(xhr.data));
         });
-    }
-
-    function cargarDatosExtra() {
-        // 
     }
 
     function send_ajxur_request(requestType, method, fnOk, data_in, data_out) {
