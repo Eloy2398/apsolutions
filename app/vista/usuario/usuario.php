@@ -90,7 +90,7 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                           <td>{{perfilNombre}}</td>
                           <td align="center">
                             {{#if_ bloqueado '==' '1'}}
-                                <button data-action="desbloquear" type="button" class="btn btn-secondary btn-sm"><i class="bx bx-check me-1"></i> Desbloquear</button>
+                                <button data-action="bloquear" type="button" class="btn btn-secondary btn-sm"><i class="bx bx-check me-1"></i> Desbloquear</button>
                             {{else}}
                                 <button data-action="bloquear" type="button" class="btn btn-secondary btn-sm"><i class="bx bx-block me-1"></i> Bloquear</button>
                             {{/if_}}

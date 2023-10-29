@@ -48,13 +48,10 @@ $(function () {
                     break;
                 case 'eliminar':
                     console.log(this.dataset.perfilid);
-                    eliminar(this.parentNode.parentNode.id, this.dataset.perfilid);
-                    break;
-                case 'desbloquear':
-                    bloquear(this.parentNode.parentNode.id, 0);
+                    eliminar(this.parentNode.parentNode.id);
                     break;
                 case 'bloquear':
-                    bloquear(this.parentNode.parentNode.id, 1);
+                    bloquear(this.parentNode.parentNode.id);
                     break;
             }
         });
@@ -81,26 +78,20 @@ $(function () {
         });
     }
 
-    function bloquear(id, bloqueo) {
+    function bloquear(id) {
         send_ajxur_request('ApiPut', 'bloquear', function (xhr) {
             swal.fire('Éxito', xhr.message, 'success');
             listar();
-        }, {
-            bloqueo: bloqueo,
-            username: DOM.hdd_username
-        }, [id]);
+        },undefined, [id]);
     }
 
-    function eliminar(id, perfil_id) {
+    function eliminar(id) {
         UtilNotification.confirm(function (isConfirm) {
             if (isConfirm) {
                 send_ajxur_request('ApiPut', 'eliminar', function (xhr) {
                     DOM.div_table.find(`tr#${id}`).remove();
                     swal.fire('Éxito', xhr.message, 'success');
-                }, {
-                    username: DOM.hdd_username,
-                    perfil_id: perfil_id
-                }, [id]);
+                },undefined, [id]);
             }
         }, 'Confirmar', '¿Estás seguro de eliminar el registro?', 'pregunta2');
     }
