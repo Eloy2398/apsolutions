@@ -2,7 +2,7 @@
 require_once '../../config/init.php';
 
 $oAccesoVista = new model\AccesoVista();
-$oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number']);
+$oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', 'dropzone']);
 
 ?>
 <!DOCTYPE html>
@@ -99,6 +99,7 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number']);
   <?php echo $oAccesoVista->cargarJs(); ?>
 
   <script type="text/javascript" src="producto.js"></script>
+  <script type="text/javascript" src="csDropzone.js"></script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <div class="modal fade" id="mdlProducto" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Nuevo</h5>
@@ -19,15 +19,18 @@
               <li class="nav-item">
                 <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-3" aria-controls="navs-top-3" aria-selected="true">Criterios de evaluación</button>
               </li>
+              <li class="nav-item">
+                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-4" aria-controls="navs-top-4" aria-selected="true">Imagen</button>
+              </li>
             </ul>
             <div class="tab-content" id="tab-content">
               <div class="tab-pane fade show active" id="navs-top-1" role="tabpanel">
                 <div class="row">
-                  <div class="col-4">
+                  <div class="col-3">
                     <label for="txtcodigo" class="form-label">Código</label>
                     <input type="text" id="txtcodigo" name="txtcodigo" class="form-control first-input" />
                   </div>
-                  <div class="col-8">
+                  <div class="col-9">
                     <label for="txtnombre" class="form-label">Nombre</label>
                     <input type="text" id="txtnombre" name="txtnombre" class="form-control" required />
                   </div>
@@ -36,13 +39,20 @@
                   <label for="txtdescripcion" class="form-label">Descripción</label>
                   <input type="text" id="txtdescripcion" name="txtdescripcion" class="form-control" />
                 </div>
-                <div class="col-12">
-                  <label for="cbocategoria" class="form-label">Categoría</label>
-                  <select id="cbocategoria" name="cbocategoria" class="form-control" required></select>
-                </div>
-                <div class="col-12">
-                  <label for="cbomarca" class="form-label">Marca</label>
-                  <select id="cbomarca" name="cbomarca" class="form-control" required></select>
+                <div class="row">
+                  <div class="col-6">
+                    <label for="cbocategoria" class="form-label">Biométrico</label>
+                    <select id="cbocategoria" name="cbocategoria" class="form-control">
+                      <option value="1">Biometrico 1</option>
+                      <option value="2">Biometrico 2</option>
+                      <option value="3">Biometrico 3</option>
+                      <option value="4">Biometrico 4</option>
+                    </select>
+                  </div>
+                  <div class="col-6">
+                    <label for="cbomarca" class="form-label">Marca</label>
+                    <select id="cbomarca" name="cbomarca" class="form-control"></select>
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col-6">
@@ -107,6 +117,47 @@
                     </script>
                   </tbody>
                 </table>
+              </div>
+              <div class="tab-pane fade" id="navs-top-4" role="tabpanel">
+                <div class="col-12">
+                  <button type="button" class="btn btn-link" id="dzClickable">[ Adjuntar imagen <i class="bx bxs-file-find"></i> ]</button>
+                </div>
+                <div class="col-12">
+                  <div id="previews">
+                    <div id="template" class="row mt-2">
+                      <div class="col-auto">
+                        <span class="preview"><img src="data:," alt="" data-dz-thumbnail /></span>
+                      </div>
+                      <div class="col-6">
+                        <div>
+                          <div>
+                            <p class="mb-0">
+                              <span class="lead" data-dz-name></span>
+                              (<span data-dz-size></span>)
+                            </p>
+                            <strong class="error text-danger" data-dz-errormessage></strong>
+                          </div>
+                          <div class="progress progress-striped active w-100" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                            <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-auto d-flex align-items-center">
+                        <div class="btn-group btn-group-sm">
+                          <!-- <button class="btn btn-secondary start">
+                                            <i class="bx bx-upload"></i>
+                                        </button> -->
+                          <!-- <button data-dz-remove class="btn btn-warning cancel">
+                                            <i class="bx bx-times-circle"></i>
+                                        </button> -->
+                          <button data-dz-remove class="btn btn-danger delete">
+                            <i class="bx bx-trash"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

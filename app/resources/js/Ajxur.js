@@ -41,16 +41,8 @@ var Ajxur = {
     if (params.data_files) {
       data_frm = new FormData();
 
-      if (params.formulario) {
-        data_frm.append("formulario", params.formulario);
-      }
-
       if (params.data_in) {
-        data_frm.append("data_in", params.data_in);
-      }
-
-      if (params.data_out) {
-        data_frm.append("data_out", params.data_out);
+        data_frm.append("object", new Blob([JSON.stringify(params.data_in)], { type: 'application/json' }));
       }
 
       if (params.data_files && params.data_files != undefined) {

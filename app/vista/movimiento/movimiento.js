@@ -59,6 +59,10 @@ $(function () {
             eliminarDetalle(this.parentNode.parentNode.id);
         });
 
+        DOM.tbodyTable.on('click', 'button[data-action=anular]', function (ev) {
+            anular(this.parentNode.parentNode.id);
+        });
+
         document.getElementById('btnagregar').addEventListener('click', function (ev) {
             agregarDetalle();
         });
@@ -197,6 +201,31 @@ $(function () {
     function guardar(form) {
         UtilNotification.confirm(function (isConfirm) {
             if (isConfirm) {
+                let arrMovimientodetalleList = obtenerMovimientodetalleList();
+                if (arrMovimientodetalleList.length == 0) {
+                    toastr.error('No se encontraron productos agregados');
+                    return;
+                }
+
+                let objParams = {
+                    fecha: form.elements.txtfecha.value,
+                    tipo: form.elements.cbotipo.value,
+                    descripcion: form.elements.txtdescripcion.value,
+                    movimientodetalleList: arrMovimientodetalleList,
+                }
+
+                if (data.personaId > 0) {
+                    objParams.persona = {
+                        id: data.personaId
+                    }
+                }
+
+                if (data.cotizacionId > 0) {
+                    objParams.cotizacion = {
+                        id: data.cotizacionId
+                    }
+                }
+
                 UtilNotification.loading('Guardando datos', 'Espere un momento, por favor...');
                 DOM.frmmovimiento.children('.modal-footer').find('button').attr('disabled', true);
 
@@ -204,18 +233,7 @@ $(function () {
                     swal.fire('Éxito', xhr.message, 'success');
                     DOM.mdlMovimiento.modal('hide');
                     listar();
-                }, {
-                    fecha: form.elements.txtfecha.value,
-                    tipo: form.elements.cbotipo.value,
-                    descripcion: form.elements.txtdescripcion.value,
-                    persona: {
-                        id: data.personaId
-                    },
-                    // cotizacion: {
-                    //     id: 0
-                    // },
-                    movimientodetalleList: obtenerMovimientodetalleList(),
-                });
+                }, objParams);
             }
         });
     }
@@ -234,6 +252,17 @@ $(function () {
         });
 
         return arrDetalleReturn;
+    }
+
+    function anular(id) {
+        UtilNotification.confirm(function (isConfirm) {
+            if (isConfirm) {
+                send_ajxur_request('ApiPut', 'anular', (xhr) => {
+                    swal.fire('Éxito', xhr.message, 'success');
+                    listar();
+                }, undefined, [id]);
+            }
+        }, "Confirmar", "¿Estás seguro de anular el registro?", "pregunta2");
     }
 
     function listar() {

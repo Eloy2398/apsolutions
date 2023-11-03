@@ -1,7 +1,8 @@
 $(function () {
     var DOM = {},
         tpl = {},
-        data = {};
+        data = {},
+        oCsDropzone;
 
     function init() {
         setDOM();
@@ -10,6 +11,8 @@ $(function () {
 
         listar();
         cargarDatosExtra();
+
+        oCsDropzone = new csDropzone('#template', '#previews', '#dzClickable');
     }
 
     function setDOM() {
@@ -42,11 +45,12 @@ $(function () {
             DOM.frmproducto.validate().resetForm();
             DOM.mdlProducto.find('.modal-title').text('Nuevo');
             document.getElementById('txtstock').disabled = false;
+            oCsDropzone.clearFile();
         });
 
         DOM.frmproducto.validate({
-            submitHandler: function (form) {
-                guardar(form);
+            submitHandler: function () {
+                guardar();
             },
             rules: UtilGlobal.getRulesFormValidate$(DOM.frmproducto)
         });
@@ -108,32 +112,49 @@ $(function () {
         $(iCheckbox.parentNode.parentNode).find('select').attr('disabled', !iCheckbox.checked);
     }
 
-    function guardar(form) {
+    function guardar() {
         UtilNotification.loading('Guardando datos', 'Espere un momento, por favor...');
         DOM.frmproducto.children('.modal-footer').find('input, button').attr('disabled', true);
 
-        let elementsForm = form.elements;
+        let elementsForm = DOM.frmproducto[0].elements;
 
-        send_ajxur_request('ApiPost', 'guardar', function (xhr) {
-            swal.fire('Éxito', xhr.message, 'success');
-            DOM.mdlProducto.modal('hide');
-            listar();
-        }, {
-            id: elementsForm.hddid.value,
-            codigo: elementsForm.txtcodigo.value,
-            nombre: elementsForm.txtnombre.value,
-            descripcion: elementsForm.txtdescripcion.value,
-            categoria: {
-                id: elementsForm.cbocategoria.value
+        new Ajxur.ApiPost({
+            modelo: 'producto',
+            metodo: 'guardar',
+            data_in: {
+                id: elementsForm.hddid.value,
+                codigo: elementsForm.txtcodigo.value,
+                nombre: elementsForm.txtnombre.value,
+                descripcion: elementsForm.txtdescripcion.value,
+                categoria: {
+                    id: elementsForm.cbocategoria.value
+                },
+                marca: {
+                    id: elementsForm.cbomarca.value
+                },
+                precio: elementsForm.txtprecio.value,
+                stock: elementsForm.txtstock.value,
+                productoCriterioopcionList: obtenerProductoCriterioopcionList(),
+                productoCaracteristicaList: obtenerProductoCaracteristicaList(),
             },
-            marca: {
-                id: elementsForm.cbomarca.value
-            },
-            precio: elementsForm.txtprecio.value,
-            stock: elementsForm.txtstock.value,
-            productoCriterioopcionList: obtenerProductoCriterioopcionList(),
-            productoCaracteristicaList: obtenerProductoCaracteristicaList(),
+            data_files: {
+                file: oCsDropzone.getFile(),
+            }
+        }, (xhr) => {
+            if (xhr.status) {
+                swal.fire('Éxito', xhr.message, 'success');
+                DOM.mdlProducto.modal('hide');
+                listar();
+            } else {
+                toastr.error(xhr.message);
+                DOM.frmproducto.children('.modal-footer').find('input, button').attr('disabled', false);
+                swal.close();
+            }
         });
+    }
+
+    csGetFile = function () {
+        return oCsDropzone.getFile();
     }
 
     function obtenerProductoCriterioopcionList() {
@@ -199,6 +220,8 @@ $(function () {
                     selectElement.disabled = false;
                 }
             });
+
+            oCsDropzone.setFile(xhrdata.imagen);
 
             DOM.mdlProducto.find('.modal-title').text('Editar');
             DOM.mdlProducto.modal('show');
