@@ -41,13 +41,8 @@
                 </div>
                 <div class="row">
                   <div class="col-6">
-                    <label for="cbocategoria" class="form-label">Biométrico</label>
-                    <select id="cbocategoria" name="cbocategoria" class="form-control">
-                      <option value="1">Biometrico 1</option>
-                      <option value="2">Biometrico 2</option>
-                      <option value="3">Biometrico 3</option>
-                      <option value="4">Biometrico 4</option>
-                    </select>
+                    <label for="cbocategoria" class="form-label">Categoría</label>
+                    <select id="cbocategoria" name="cbocategoria" class="form-control"></select>
                   </div>
                   <div class="col-6">
                     <label for="cbomarca" class="form-label">Marca</label>
