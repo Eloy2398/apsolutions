@@ -30,6 +30,7 @@ class NavigationMenu
             array('titulo' => 'Empresa', 'icono' => 'bx-cog', 'submenu' => [
                 array('titulo' => 'Perfiles', 'url' => '../perfil/'),
                 array('titulo' => 'Usuarios', 'url' => '../usuario/'),
+                array('titulo' => 'Mi Perfil', 'url' => '../usuarioperfil/'),
             ]),
         );
     }

@@ -41,16 +41,22 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                           <select id="cboperfil" name="cboperfil" class="form-control" required></select>
                         </div>
                         <div class="col-12">
-                          <label for="txtusuario" class="form-label">Usuario</label>
-                          <input type="text" id="txtusuario" name="txtusuario" class="form-control first-input" required />
+                          <label for="txtnombre" class="form-label">Nombre</label>
+                          <input type="text" id="txtnombre" name="txtnombre" class="form-control first-input" required />
+                        </div>
+                        <div class="col-12">
+                            <label for="txtusuario" class="form-label">Usuario</label>
+                            <label for="chkmodusu" class="form-check-label d-none" id="chkusuario" style="float: inline-end;">
+                              <input type="checkbox" name="chkmodusu" id="chkmodusu" value="1" class="form-check-input"> Modificar Usuario
+                            </label>
+                          <input type="text" id="txtusuario" name="txtusuario" class="form-control" required />
                         </div>
                         <div class="col-12">
                           <label for="txtclave" class="form-label">Clave</label>
+                            <label for="chkmodpass" class="form-check-label d-none" id="chkclave" style="float: inline-end;">
+                              <input type="checkbox" name="chkmodpass" id="chkmodpass" value="1" class="form-check-input"> Modificar Clave
+                            </label>
                           <input type="password" id="txtclave" name="txtclave" class="form-control" required />
-                        </div>
-                        <div class="col-12">
-                          <label for="txtnombre" class="form-label">Nombre</label>
-                          <input type="text" id="txtnombre" name="txtnombre" class="form-control" required />
                         </div>
                       </div>
                     </div>
