@@ -66,11 +66,12 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                                 </div>
                                 <div class="col-md">
                                     <div class="col-12">
-                                        <form id="frmusuario">
+                                        <form id="frmusuario" method="post">
                                             <label for="txtusuario" class="form-label">Usuario</label>
                                             <input type="text" id="txtusuario" name="txtusuario" class="form-control mb-3" required />
+                                            
                                             <button type="submit" class="btn btn-primary">Guardar</button>
-                                            <button type="reset" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="reset" class="btn btn-outline-danger">Cancelar</button>
                                         </form>
                                     </div>
                                 </div>

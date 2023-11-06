@@ -37,10 +37,39 @@ $(function () {
                     break;
             }
         });
+
+        DOM.frmusuario.validate({
+            submitHandler: function (form) {
+                guardar(form, 'username');
+            },
+            rules: UtilGlobal.getRulesFormValidate$(DOM.frmusuario)
+        });
+
+        DOM.frmclave.validate({
+            submitHandler: function (form) {
+                guardar(form, 'password');
+            },
+            rules: UtilGlobal.getRulesFormValidate$(DOM.frmclave)
+        });
     }
 
-    function guardar(form) {
+    function guardar(form, act) {
+        let elementsForm = form.elements;
 
+        if(elementsForm.txtnuevaclave.value != elementsForm.txtrepetirclave.value){
+            toastr.error('Las claves ingresadas no coniciden.');
+            elementsForm.txtrepetirclave.focus();
+        }else {
+            UtilNotification.loading('Guardando datos', 'Espere un momento, por favor...');
+
+            send_ajxur_request('ApiPost', 'update', function (xhr) {
+                swal.fire('Éxito', xhr.message, 'success');
+            }, {
+                usuario: act == "username" ? elementsForm.txtusuario.value : "",
+                claveAnterior: act == "password" ? elementsForm.txtclaveactual.value : "",
+                claveNueva: act == "password" ? elementsForm.txtnuevaclave.value : ""
+            });
+        }
     }
 
     function send_ajxur_request(requestType, method, fnOk, data_in, data_out) {
