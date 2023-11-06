@@ -10,6 +10,9 @@ $(function () {
         DOM.frmusuario = $('#frmusuario');
         DOM.frmclave = $('#frmclave');
         DOM.ulvistas = $('#ulvistas');
+
+        DOM.txtnuevaclave = $('#txtnuevaclave');
+        DOM.txtrepetirclave = $('#txtrepetirclave');
         
         DOM.div_details = $('#div_details');
         DOM.div_modifyuser = $('#div_modifyuser');
@@ -47,7 +50,12 @@ $(function () {
 
         DOM.frmclave.validate({
             submitHandler: function (form) {
-                guardar(form, 'password');
+                if(DOM.txtnuevaclave.val() != DOM.txtrepetirclave.val()){
+                    toastr.error('Las claves ingresadas no coniciden.');
+                    DOM.txtrepetirclave.focus();
+                }else{
+                    guardar(form, 'password');
+                }
             },
             rules: UtilGlobal.getRulesFormValidate$(DOM.frmclave)
         });
@@ -56,20 +64,15 @@ $(function () {
     function guardar(form, act) {
         let elementsForm = form.elements;
 
-        if(elementsForm.txtnuevaclave.value != elementsForm.txtrepetirclave.value){
-            toastr.error('Las claves ingresadas no coniciden.');
-            elementsForm.txtrepetirclave.focus();
-        }else {
-            UtilNotification.loading('Guardando datos', 'Espere un momento, por favor...');
+        UtilNotification.loading('Guardando datos', 'Espere un momento, por favor...');
 
-            send_ajxur_request('ApiPost', 'update', function (xhr) {
-                swal.fire('Éxito', xhr.message, 'success');
-            }, {
-                usuario: act == "username" ? elementsForm.txtusuario.value : "",
-                claveAnterior: act == "password" ? elementsForm.txtclaveactual.value : "",
-                claveNueva: act == "password" ? elementsForm.txtnuevaclave.value : ""
-            });
-        }
+        send_ajxur_request('ApiPost', 'update', function (xhr) {
+            swal.fire('Éxito', xhr.message, 'success');
+        }, {
+            usuario: act == "username" ? elementsForm.txtusuario.value : "",
+            claveAnterior: act == "password" ? elementsForm.txtclaveactual.value : "",
+            claveNueva: act == "password" ? elementsForm.txtnuevaclave.value : ""
+        });
     }
 
     function send_ajxur_request(requestType, method, fnOk, data_in, data_out) {
