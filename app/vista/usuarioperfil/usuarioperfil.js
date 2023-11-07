@@ -68,9 +68,11 @@ $(function () {
 
         send_ajxur_request('ApiPost', 'update', function (xhr) {
             swal.fire('Éxito', xhr.message, 'success');
+            DOM.frmusuario[0].reset();
+            DOM.frmclave[0].reset();
         }, {
             usuario: act == "username" ? elementsForm.txtusuario.value : "",
-            claveAnterior: act == "password" ? elementsForm.txtclaveactual.value : "",
+            claveActual: act == "password" ? elementsForm.txtclaveactual.value : "",
             claveNueva: act == "password" ? elementsForm.txtnuevaclave.value : ""
         });
     }
