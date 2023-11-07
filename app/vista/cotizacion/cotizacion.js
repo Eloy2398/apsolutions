@@ -1,15 +1,15 @@
-$(function(){
+$(function () {
     var DOM = {},
         tpl = {};
 
-    function init(){
+    function init() {
         setDOM();
         setTemplates();
 
         listar();
     }
 
-    function setDOM(){
+    function setDOM() {
         DOM.tbodyTable = $('#tbodyTable');
     }
 

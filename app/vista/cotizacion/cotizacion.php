@@ -55,11 +55,11 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                     <td>{{clienteDocumento}}</td>
                     <td>{{clienteNombre}}</td>
                     <td>
-                        {{#if estado}}
-                            <span class="text-success">REGISTRADO</span>
-                        {{else}}
-                            <span class="text-danger">ANULADO</span>
-                        {{/if}}
+                      {{#if estado}}
+                        <span class="text-success">REGISTRADO</span>
+                      {{else}}
+                        <span class="text-danger">ANULADO</span>
+                      {{/if}}
                     </td>
                     <td align="center">
                       <button data-action="pdf" data-bs-toggle="tooltip" data-bs-original-title="PDF" class="btn options">PDF</button>

@@ -1,8 +1,8 @@
-$(function(){
+$(function () {
     var DOM = {},
         tpl = {};
 
-    function init(){
+    function init() {
         setDOM();
         setTemplates();
         setEvents();
@@ -64,7 +64,7 @@ $(function(){
         });
     }
 
-    function criterioOpcionAgregar(){
+    function criterioOpcionAgregar() {
         let descripcion = String(DOM.txtopcionnombre.val()).trim();
         if (descripcion == '') return DOM.txtopcionnombre.focus();
 
@@ -121,9 +121,9 @@ $(function(){
     }
 
     function leerDatos(id) {
-        send_ajxur_request('ApiGet', 'leer', function(xhr) {
+        send_ajxur_request('ApiGet', 'leer', function (xhr) {
             DOM.mdlCriterio.find('.modal-title').text('Editar');
-            
+
             let xhrdata = xhr.data, elementsForm = DOM.frmcriterio[0].elements;
             UtilGlobal.setDataFormulario(elementsForm, xhrdata);
             elementsForm.hddid.value = id;

@@ -45,17 +45,17 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                           <input type="text" id="txtnombre" name="txtnombre" class="form-control first-input" required />
                         </div>
                         <div class="col-12">
-                            <label for="txtusuario" class="form-label">Usuario</label>
-                            <label for="chkmodusu" class="form-check-label d-none" id="chkusuario" style="float: inline-end;">
-                              <input type="checkbox" name="chkmodusu" id="chkmodusu" value="1" class="form-check-input"> Modificar Usuario
-                            </label>
+                          <label for="txtusuario" class="form-label">Usuario</label>
+                          <label for="chkmodusu" class="form-check-label d-none" id="chkusuario" style="float: inline-end;">
+                            <input type="checkbox" name="chkmodusu" id="chkmodusu" value="1" class="form-check-input"> Modificar Usuario
+                          </label>
                           <input type="text" id="txtusuario" name="txtusuario" class="form-control" required />
                         </div>
                         <div class="col-12">
                           <label for="txtclave" class="form-label">Clave</label>
-                            <label for="chkmodpass" class="form-check-label d-none" id="chkclave" style="float: inline-end;">
-                              <input type="checkbox" name="chkmodpass" id="chkmodpass" value="1" class="form-check-input"> Modificar Clave
-                            </label>
+                          <label for="chkmodpass" class="form-check-label d-none" id="chkclave" style="float: inline-end;">
+                            <input type="checkbox" name="chkmodpass" id="chkmodpass" value="1" class="form-check-input"> Modificar Clave
+                          </label>
                           <input type="password" id="txtclave" name="txtclave" class="form-control" required />
                         </div>
                       </div>

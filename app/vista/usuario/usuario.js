@@ -45,19 +45,19 @@ $(function () {
             DOM.chkclave.addClass('d-none');
         });
 
-        DOM.chkmodusu.on("change", function(){
-            if(DOM.chkmodusu.is(":checked")){
+        DOM.chkmodusu.on("change", function () {
+            if (DOM.chkmodusu.is(":checked")) {
                 DOM.txtusuario.prop("disabled", false);
-            }else{
+            } else {
                 DOM.txtusuario.prop("disabled", true);
                 DOM.txtusuario.val("");
             }
         });
 
-        DOM.chkmodpass.on("change", function(){
-            if(DOM.chkmodpass.is(":checked")){
+        DOM.chkmodpass.on("change", function () {
+            if (DOM.chkmodpass.is(":checked")) {
                 DOM.txtclave.prop("disabled", false);
-            }else{
+            } else {
                 DOM.txtclave.prop("disabled", true);
                 DOM.txtclave.val("");
             }
@@ -111,13 +111,13 @@ $(function () {
         send_ajxur_request('ApiPut', 'bloquear', function (xhr) {
             swal.fire('Éxito', xhr.message, 'success');
             listar();
-        },undefined, [id]);
+        }, undefined, [id]);
     }
 
     function leerDatos(id) {
-        send_ajxur_request('ApiGet', 'leer', function(xhr) {
+        send_ajxur_request('ApiGet', 'leer', function (xhr) {
             DOM.mdlUsuario.find('.modal-title').text('Editar');
-            
+
             let xhrdata = xhr.data, elementsForm = DOM.frmusuario[0].elements;
             UtilGlobal.setDataFormulario(elementsForm, xhrdata);
             elementsForm.hddid.value = id;
@@ -140,7 +140,7 @@ $(function () {
                 send_ajxur_request('ApiPut', 'eliminar', function (xhr) {
                     DOM.div_table.find(`tr#${id}`).remove();
                     swal.fire('Éxito', xhr.message, 'success');
-                },undefined, [id]);
+                }, undefined, [id]);
             }
         }, 'Confirmar', '¿Estás seguro de eliminar el registro?', 'pregunta2');
     }

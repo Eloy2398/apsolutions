@@ -13,7 +13,7 @@ $(function () {
 
         DOM.txtnuevaclave = $('#txtnuevaclave');
         DOM.txtrepetirclave = $('#txtrepetirclave');
-        
+
         DOM.div_details = $('#div_details');
         DOM.div_modifyuser = $('#div_modifyuser');
         DOM.div_modifypassword = $('#div_modifypassword');
@@ -21,7 +21,7 @@ $(function () {
 
     function setEvents() {
         DOM.ulvistas.on('click', 'button', function (ev) {
-            
+
             $(".nav-link").removeClass('active');
             $(this).addClass('active');
 
@@ -50,10 +50,10 @@ $(function () {
 
         DOM.frmclave.validate({
             submitHandler: function (form) {
-                if(DOM.txtnuevaclave.val() != DOM.txtrepetirclave.val()){
+                if (DOM.txtnuevaclave.val() != DOM.txtrepetirclave.val()) {
                     toastr.error('Las claves ingresadas no coniciden.');
                     DOM.txtrepetirclave.focus();
-                }else{
+                } else {
                     guardar(form, 'password');
                 }
             },
