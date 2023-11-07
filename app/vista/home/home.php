@@ -2,7 +2,7 @@
 require_once '../../config/init.php';
 
 $oAccesoVista = new model\AccesoVista();
-$oVista = $oAccesoVista->obtenerVista('default');
+$oVista = $oAccesoVista->obtenerVista('default', ['highcharts', 'highcharts-3d', 'highcharts-theme-grid-light', 'highcharts-export-data']);
 
 ?>
 <!DOCTYPE html>
@@ -25,118 +25,131 @@ $oVista = $oAccesoVista->obtenerVista('default');
           <div class="container-xxl flex-grow-1 container-p-y">
             <?php include '../../resources/complements/partials/header.php'; ?>
 
-            <div class="card">
-              <h5 class="card-header">Table Basic</h5>
-              <div class="table-responsive text-nowrap">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Project</th>
-                      <th>Client</th>
-                      <th>Users</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody class="table-border-bottom-0">
-                    <tr>
-                      <td>
-                        <i class="fab fa-angular fa-lg text-danger me-3"></i>
-                        <span class="fw-medium">Angular Project</span>
-                      </td>
-                      <td>Albert Cook</td>
-                      <td>
-                        <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                          <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Lilian Fuller">
-                            <img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
-                          </li>
-                          <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Sophia Wilkerson">
-                            <img src="../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
-                          </li>
-                          <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Christina Parker">
-                            <img src="../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
-                          </li>
-                        </ul>
-                      </td>
-                      <td><span class="badge bg-label-primary me-1">Active</span></td>
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
-                          </div>
+            <div class="row">
+              <div class="col-lg-3 col-12 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <li class="d-flex pb-1">
+                      <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-danger"><i class="bx bx-box"></i></span>
+                      </div>
+                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                          <small class="text-muted d-block mb-1"><a href="../producto/">Más información <i class="bx bx-chevron-right"></i></a></small>
+                          <h6 class="mb-0">Productos</h6>
                         </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <i class="fab fa-vuejs fa-lg text-success me-3"></i>
-                        <span class="fw-medium">VueJs Project</span>
-                      </td>
-                      <td>Trevor Baker</td>
-                      <td>
-                        <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                          <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Lilian Fuller">
-                            <img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
-                          </li>
-                          <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Sophia Wilkerson">
-                            <img src="../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
-                          </li>
-                          <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Christina Parker">
-                            <img src="../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
-                          </li>
-                        </ul>
-                      </td>
-                      <td><span class="badge bg-label-info me-1">Scheduled</span></td>
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-2"></i> Edit</a>
-                            <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-2"></i> Delete</a>
-                          </div>
+                        <div class="user-progress d-flex align-items-center gap-1">
+                          <!-- <h6 class="mb-0">+82.6</h6> -->
+                          <span class="text-muted" id="span-producto"></span>
                         </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <i class="fab fa-bootstrap fa-lg text-primary me-3"></i>
-                        <span class="fw-medium">Bootstrap Project</span>
-                      </td>
-                      <td>Jerry Milton</td>
-                      <td>
-                        <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                          <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Lilian Fuller">
-                            <img src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
-                          </li>
-                          <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Sophia Wilkerson">
-                            <img src="../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
-                          </li>
-                          <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Christina Parker">
-                            <img src="../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
-                          </li>
-                        </ul>
-                      </td>
-                      <td><span class="badge bg-label-warning me-1">Pending</span></td>
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i class="bx bx-dots-vertical-rounded"></i>
-                          </button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-2"></i> Edit</a>
-                            <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-2"></i> Delete</a>
-                          </div>
+                      </div>
+                    </li>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-12 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <li class="d-flex pb-1">
+                      <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-success"><i class="bx bx-group"></i></span>
+                      </div>
+                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                          <small class="text-muted d-block mb-1"><a href="../cliente/">Más información <i class="bx bx-chevron-right"></i></a></small>
+                          <h6 class="mb-0">Clientes</h6>
                         </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                        <div class="user-progress d-flex align-items-center gap-1">
+                          <!-- <h6 class="mb-0">+82.6</h6> -->
+                          <span class="text-muted" id="span-cliente"></span>
+                        </div>
+                      </div>
+                    </li>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-12 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <li class="d-flex pb-1">
+                      <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-info"><i class="bx bx-group"></i></span>
+                      </div>
+                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                          <small class="text-muted d-block mb-1"><a href="../proveedor/">Más información <i class="bx bx-chevron-right"></i></a></small>
+                          <h6 class="mb-0">Proveedores</h6>
+                        </div>
+                        <div class="user-progress d-flex align-items-center gap-1">
+                          <!-- <h6 class="mb-0">+82.6</h6> -->
+                          <span class="text-muted" id="span-proveedor"></span>
+                        </div>
+                      </div>
+                    </li>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-12 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <li class="d-flex pb-1">
+                      <div class="avatar flex-shrink-0 me-3">
+                        <span class="avatar-initial rounded bg-label-primary"><i class="bx bx-list-check"></i></span>
+                      </div>
+                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                          <small class="text-muted d-block mb-1"><a href="../cotizacion/">Más información <i class="bx bx-chevron-right"></i></a></small>
+                          <h6 class="mb-0">Cotizaciones</h6>
+                        </div>
+                        <div class="user-progress d-flex align-items-center gap-1">
+                          <!-- <h6 class="mb-0">+82.6</h6> -->
+                          <span class="text-muted" id="span-cotizacion"></span>
+                        </div>
+                      </div>
+                    </li>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 col-lg-6 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="chart-container w-100" id="div_stock_productos"></div>
+                  </div>
+                  <div class="card-footer" id="card-footer-stockproducto">
+                    <div class="text-center">
+                      <select class="form-control form-control-sm w-auto d-inline-block text-uppercase" name="cbocategoria" id="cbocategoria">
+                        <script type="handlebars-x" id="tpl_combo">
+                          {{#if placeholder}}
+                            <option value="">TODAS LAS CATEGORÍAS</option>
+                          {{/if}}
+                          {{#data}}
+                            <option value="{{id}}">{{nombre}}</option>
+                          {{/data}}
+                        </script>
+                      </select>
+                      <select class="form-control form-control-sm w-auto d-inline-block" name="cboorden" id="cboorden">
+                        <option value="1">ASC</option>
+                        <option value="2">DESC</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="spinner-border spinner-border-lg text-primary" role="status" style="position: absolute; top: 0; bottom: 0; right: 0; left: 0; margin: auto;" id="spinner-chart01">
+                    <span class="visually-hidden">Cargando...</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-6 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="chart-container w-100" id="div_cotizaciones"></div>
+                  </div>
+                  <div class="spinner-border spinner-border-lg text-primary" role="status" style="position: absolute; top: 0; bottom: 0; right: 0; left: 0; margin: auto;" id="spinner-chart02">
+                    <span class="visually-hidden">Cargando...</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -156,7 +169,7 @@ $oVista = $oAccesoVista->obtenerVista('default');
 
   </div>
   <?php echo $oAccesoVista->cargarJs(); ?>
-  <!-- <script src="home.vista.js" type="text/javascript"></script> -->
+  <script src="home.vista.js" type="text/javascript"></script>
 </body>
 
 </html>
