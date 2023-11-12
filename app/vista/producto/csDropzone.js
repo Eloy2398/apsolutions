@@ -31,7 +31,7 @@ class csDropzone {
     }
 
     setFile(filename) {
-        if (filename != "") {
+        if (filename != null && filename != "") {
             let fullUrl = Ajxur.Ws.getEndpoint() + 'download/' + this._currentPath + '/' + filename;
 
             let mockFile = {
