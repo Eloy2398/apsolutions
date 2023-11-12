@@ -33,23 +33,14 @@ class csDropzone {
     setFile(filename) {
         if (filename != null && filename != "") {
             let fullUrl = Ajxur.Ws.getEndpoint() + 'download/' + this._currentPath + '/' + filename;
-
-            let mockFile = {
-                name: filename,
-                size: 12345,
-                dataURL: fullUrl,
-                type: 'image/' + filename.split('.').reverse()[0],
-                status: Dropzone.ADDED,
-                accepted: true,
-            };
-
-            this._oDropzone.files.push(mockFile);
-            // this._oDropzone.emit("addedfile", mockFile);
-            // this._oDropzone.emit("thumbnail", mockFile, fullUrl);
-            // this._oDropzone.emit("complete", mockFile);
-            this._oDropzone.displayExistingFile(mockFile, fullUrl, null, null, false);
-            $(this._selectorPreviews).find('img').addClass('w-px-100');
+            this.convertPathToFile(fullUrl, filename).then(file => this._oDropzone.addFile(file));
         }
+    }
+
+    async convertPathToFile(path, filename) {
+        const response = await fetch(path);
+        const blob = await response.blob();
+        return new File([blob], filename, { type: "image/*" });
     }
 
     getFile() {
@@ -62,7 +53,6 @@ class csDropzone {
 
     clearFile() {
         this._oDropzone.removeAllFiles(true);
-        // $(this._selectorPreviews).html('');
     }
 
     getFileBase64Enviar(fnOk) {

@@ -41,19 +41,22 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'dropzone']);
                           <label for="txtnombre" class="form-label">Nombre</label>
                           <input type="text" id="txtnombre" name="txtnombre" class="form-control first-input" required />
                         </div>
-                        <div class="col-6">
-                          <label for="chkmosweb" class="form-check-label" id="chkusuario">
-                            <input type="checkbox" name="chkmosweb" id="chkmosweb" value="1" class="form-check-input"> Mostrar en Web
-                          </label>
+                        <div class="col-12 mt-2">
+                          <div class="form-check">
+                            <input type="checkbox" name="chkmosweb" id="chkmosweb" value="1" class="form-check-input">
+                            <label for="chkmosweb" class="form-check-label">Mostrar en web</label>
+                          </div>
                         </div>
-                        <div class="col-6">
-                          <label for="chkmosdes" class="form-check-label" id="chkusuario">
-                            <input type="checkbox" name="chkmosdes" id="chkmosdes" value="1" class="form-check-input"> Mostrar Destacado                          </label>
+                        <div class="col-12 mt-2">
+                          <div class="form-check">
+                            <input type="checkbox" name="chkmosdes" id="chkmosdes" value="1" class="form-check-input">Marcar como destacado</label>
+                            <label for="chkmosdes" class="form-check-label">
+                          </div>
                         </div>
-                        <div class="col-12">
+                        <div class="col-12 mt-2">
                           <button type="button" class="btn btn-link" id="dzClickable">[ Adjuntar imagen <i class="bx bxs-file-find"></i> ]</button>
                         </div>
-                        
+
                         <div class="col-12">
                           <div id="previews">
                             <div id="template" class="row mt-2">
@@ -151,8 +154,8 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'dropzone']);
   </div>
   <?php echo $oAccesoVista->cargarJs(); ?>
 
-<script type="text/javascript" src="marca.js"></script>
-<script type="text/javascript" src="csDropzone.js"></script>
+  <script type="text/javascript" src="marca.js"></script>
+  <script type="text/javascript" src="../../resources/js/csDropzone.js"></script>
 </body>
 
 </html>

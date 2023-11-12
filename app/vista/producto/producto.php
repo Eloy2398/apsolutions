@@ -99,7 +99,7 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
   <?php echo $oAccesoVista->cargarJs(); ?>
 
   <script type="text/javascript" src="producto.js"></script>
-  <script type="text/javascript" src="csDropzone.js"></script>
+  <script type="text/javascript" src="../../resources/js/csDropzone.js"></script>
 </body>
 
 </html>
