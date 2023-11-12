@@ -2,7 +2,7 @@
 require_once '../../config/init.php';
 
 $oAccesoVista = new model\AccesoVista();
-$oVista = $oAccesoVista->obtenerVista('default', ['controller']);
+$oVista = $oAccesoVista->obtenerVista('default', ['controller', 'dropzone']);
 
 ?>
 <!DOCTYPE html>
@@ -37,10 +37,60 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                     <input type="hidden" name="hddid" id="hddid" value="">
                     <div class="modal-body">
                       <div class="row">
-                        <div class="col-12">
+                        <div class="col-12 mb-2">
                           <label for="txtnombre" class="form-label">Nombre</label>
                           <input type="text" id="txtnombre" name="txtnombre" class="form-control first-input" required />
                         </div>
+                        <div class="col-6">
+                          <label for="chkmosweb" class="form-check-label" id="chkusuario">
+                            <input type="checkbox" name="chkmosweb" id="chkmosweb" value="1" class="form-check-input"> Mostrar en Web
+                          </label>
+                        </div>
+                        <div class="col-6">
+                          <label for="chkmosdes" class="form-check-label" id="chkusuario">
+                            <input type="checkbox" name="chkmosdes" id="chkmosdes" value="1" class="form-check-input"> Mostrar Destacado                          </label>
+                        </div>
+                        <div class="col-12">
+                          <button type="button" class="btn btn-link" id="dzClickable">[ Adjuntar imagen <i class="bx bxs-file-find"></i> ]</button>
+                        </div>
+                        
+                        <div class="col-12">
+                          <div id="previews">
+                            <div id="template" class="row mt-2">
+                              <div class="col-auto">
+                                <span class="preview"><img src="data:," alt="" data-dz-thumbnail /></span>
+                              </div>
+                              <div class="col-6">
+                                <div>
+                                  <div>
+                                    <p class="mb-0">
+                                      <span class="lead" data-dz-name></span>
+                                      (<span data-dz-size></span>)
+                                    </p>
+                                    <strong class="error text-danger" data-dz-errormessage></strong>
+                                  </div>
+                                  <div class="progress progress-striped active w-100" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                    <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-auto d-flex align-items-center">
+                                <div class="btn-group btn-group-sm">
+                                  <!-- <button class="btn btn-secondary start">
+                                                    <i class="bx bx-upload"></i>
+                                                </button> -->
+                                  <!-- <button data-dz-remove class="btn btn-warning cancel">
+                                                    <i class="bx bx-times-circle"></i>
+                                                </button> -->
+                                  <button data-dz-remove class="btn btn-danger delete">
+                                    <i class="bx bx-trash"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
                     </div>
                     <div class="modal-footer">
@@ -100,9 +150,9 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
 
   </div>
   <?php echo $oAccesoVista->cargarJs(); ?>
-  <script type="text/javascript">
-    _.initialize('categoria');
-  </script>
+
+  <script type="text/javascript" src="categoria.js"></script>
+  <script type="text/javascript" src="csDropzone.js"></script>
 </body>
 
 </html>
