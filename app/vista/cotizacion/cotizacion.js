@@ -1,20 +1,277 @@
 $(function () {
     var DOM = {},
-        tpl = {};
+        tpl = {},
+        data = {},
+        arrDetalle = [];
 
     function init() {
         setDOM();
         setTemplates();
+        setEvents();
 
         listar();
     }
 
     function setDOM() {
         DOM.tbodyTable = $('#tbodyTable');
+        DOM.mdlCotizacion = $('#mdlCotizacion');
+        DOM.frmcotizacion = $('#frmcotizacion');
+        DOM.txtbusproducto = $('#txtbusproducto');
+        DOM.txtbuscantidad = $('#txtbuscantidad');
+        DOM.txtbusprecio = $('#txtbusprecio');
+        DOM.txtanexo = $('#txtanexo');
+        DOM.tbodyDetalle = $('#tbodyDetalle');
     }
 
     function setTemplates() {
         tpl = UtilGlobal.Templater($('script[type=handlebars-x]'));
+    }
+
+    function setEvents() {
+        UtilGlobal.setDatepicker(document.getElementById('txtfecha'));
+        UtilNumber.setFormatNumberDecimal(DOM.txtbusprecio);
+        UtilNumber.setFormatNumber(DOM.txtbuscantidad);
+
+        setAutocompleteBuscarCliente();
+        setAutocompleteBuscarProducto();
+
+        DOM.mdlCotizacion.on('shown.bs.modal', function (ev) {
+            DOM.frmcotizacion.find('.first-input').focus();
+        }).on('hidden.bs.modal', function (ev) {
+            DOM.frmcotizacion.find('input[type=hidden]').val('');
+            DOM.frmcotizacion[0].reset();
+        }).on('hide.bs.modal', function (ev) {
+            resetValores();
+            DOM.frmcotizacion.children('.modal-footer').find('button').attr('disabled', false);
+            DOM.frmcotizacion.validate().resetForm();
+            DOM.mdlCotizacion.find('.modal-title').text('Nuevo');
+        });
+
+        DOM.frmcotizacion.validate({
+            submitHandler: function (form) {
+                guardar(form);
+            },
+            rules: UtilGlobal.getRulesFormValidate$(DOM.frmcotizacion)
+        });
+
+        DOM.tbodyDetalle.on('click', '.bx-trash', function (ev) {
+            eliminarDetalle(this.parentNode.parentNode.id);
+        });
+
+        DOM.tbodyTable.on('click', 'button[data-action=anular]', function (ev) {
+            anular(this.parentNode.parentNode.id);
+        });
+
+        DOM.tbodyTable.on('click', 'button[data-action=editar]', function (ev) {
+            leerDatos(this.parentNode.parentNode.id);
+        });
+
+        document.getElementById('btnagregar').addEventListener('click', function (ev) {
+            agregarDetalle();
+        });
+
+    }
+
+    function setAutocompleteBuscarCliente() {
+        DOM.txtanexo.autocomplete({
+            minLength: 3,
+            source: function (request, response) {
+                new Ajxur.ApiGet({
+                    modelo: 'movimiento',
+                    metodo: 'buscarPersona',
+                    data_params: {
+                        query: request.term
+                    }
+                }, (xhr) => response(xhr.data));
+            },
+            select: function (event, ui) {
+                establecerIdcliente(ui.item);
+            },
+            change: function (event, ui) {
+                establecerIdcliente(ui.item);
+            }
+        }).autocomplete("instance")._renderItem = function (ul, item) {
+            return $("<li>")
+                .append("<div>"
+                    + "<span>" + item.documento + "</span>"
+                    + "<span>" + item.nombre + "</span>"
+                    + "</div>")
+                .appendTo(ul);
+        }
+    }
+
+    function establecerIdcliente(pData) {
+        if (pData == null) {
+            data.clienteId = 0;
+        } else {
+            data.clienteId = pData.id;
+            setTimeout(() => DOM.txtbusproducto.focus(), 100);
+        }
+    }
+
+    function setAutocompleteBuscarProducto() {
+        DOM.txtbusproducto.autocomplete({
+            minLength: 3,
+            source: function (request, response) {
+                new Ajxur.ApiGet({
+                    modelo: 'movimiento',
+                    metodo: 'buscarProducto',
+                    data_params: {
+                        query: request.term
+                    }
+                }, (xhr) => response(xhr.data));
+            },
+            select: function (event, ui) {
+                establecerIdproducto(ui.item);
+            },
+            change: function (event, ui) {
+                establecerIdproducto(ui.item);
+            }
+        }).autocomplete("instance")._renderItem = function (ul, item) {
+            return $("<li>")
+                .append("<div>"
+                    + "<span>" + item.nombre + "</span>"
+                    + "<span>" + item.precio + "</span>"
+                    + "</div>")
+                .appendTo(ul);
+        }
+    }
+
+    function establecerIdproducto(pData) {
+        if (pData == null) {
+            data.productoId = 0;
+        } else {
+            data.productoId = pData.id;
+            DOM.txtbusprecio.val(pData.precio);
+            setTimeout(() => DOM.txtbuscantidad.focus(), 100);
+        }
+    }
+
+    function agregarDetalle() {
+        if (data.productoId == undefined || data.productoId == 0) {
+            toastr.error('Seleccione producto válido');
+            return;
+        }
+
+        if (DOM.txtbuscantidad.val() == 0) {
+            toastr.error('Ingrese cantidad');
+            return;
+        }
+
+        let pos = obtenerPosArrDetalle(data.productoId);
+        if (pos == -1) {
+            arrDetalle.push({
+                id: data.productoId,
+                nombre: DOM.txtbusproducto.val(),
+                cantidad: Number(DOM.txtbuscantidad.val()),
+                precio: DOM.txtbusprecio.val(),
+            });
+        } else {
+            arrDetalle[pos].cantidad += Number(DOM.txtbuscantidad.val());
+        }
+
+        renderArrDetalle();
+
+        DOM.txtbusproducto.val('').focus();
+        DOM.txtbuscantidad.val('');
+        DOM.txtbusprecio.val('');
+        data.productoId = 0;
+    }
+
+    function eliminarDetalle(id) {
+        if (id > 0) {
+            let pos = obtenerPosArrDetalle(id);
+            if (pos > -1) arrDetalle.splice(pos, 1);
+            renderArrDetalle();
+        } else {
+            toastr.error('Indicador no encontrado');
+        }
+    }
+
+    function obtenerPosArrDetalle(id) {
+        return UtilArray.getPosition(arrDetalle, id, 'id');
+    }
+
+    function renderArrDetalle() {
+        DOM.tbodyDetalle.html(tpl.detalle(arrDetalle));
+    }
+
+    function resetValores() {
+        data = {};
+        arrDetalle = [];
+        renderArrDetalle();
+    }
+
+    function guardar(form) {
+        UtilNotification.confirm(function (isConfirm) {
+            if (isConfirm) {
+                let arrCotizaciondetalleList = obtenerCotizaciondetalleList();
+                if (arrCotizaciondetalleList.length == 0) {
+                    toastr.error('No se encontraron productos agregados');
+                    return;
+                }
+
+                let objParams = {
+                    fecha: form.elements.txtfecha.value,
+                    cotizaciondetalleList: arrCotizaciondetalleList,
+                }
+
+                if (data.clienteId > 0) {
+                    objParams.cliente = {
+                        id: data.clienteId
+                    }
+                }
+
+                UtilNotification.loading('Guardando datos', 'Espere un momento, por favor...');
+                DOM.frmcotizacion.children('.modal-footer').find('button').attr('disabled', true);
+
+                send_ajxur_request('ApiPost', 'guardar', (xhr) => {
+                    swal.fire('Éxito', xhr.message, 'success');
+                    DOM.mdlCotizacion.modal('hide');
+                    listar();
+                }, objParams);
+            }
+        });
+    }
+
+    function obtenerCotizaciondetalleList() {
+        let arrDetalleReturn = [];
+
+        arrDetalle.forEach((item) => {
+            arrDetalleReturn.push({
+                producto: {
+                    id: item.id
+                },
+                cantidad: item.cantidad,
+                precio: item.precio,
+            });
+        });
+
+        return arrDetalleReturn;
+    }
+
+    function leerDatos(id) {
+        send_ajxur_request('ApiGet', 'leer', function (xhr) {
+            DOM.mdlCotizacion.find('.modal-title').text('Editar');
+            console.log(xhr);
+            // let xhrdata = xhr.data, elementsForm = DOM.frmcriterio[0].elements;
+            // UtilGlobal.setDataFormulario(elementsForm, xhrdata);
+            // elementsForm.hddid.value = id;
+            // DOM.tbodyDetalle.html(tpl.opcionTable(xhrdata.criterioopcionList));
+
+            DOM.mdlCotizacion.modal('show');
+        }, undefined, [id]);
+    }
+
+    function anular(id) {
+        UtilNotification.confirm(function (isConfirm) {
+            if (isConfirm) {
+                send_ajxur_request('ApiPut', 'anular', function (xhr) {
+                    listar();
+                    swal.fire('Éxito', xhr.message, 'success');
+                }, undefined, [id]);
+            }
+        }, 'Confirmar', '¿Estás seguro de anular la cotizacion?', 'pregunta2');
     }
 
     function listar() {
