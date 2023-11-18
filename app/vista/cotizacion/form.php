@@ -15,7 +15,7 @@
             </div>
           </div>
           <div class="col-12">
-            <label for="txtanexo" class="form-label">Cliente / Proveedor</label>
+            <label for="txtanexo" class="form-label">Cliente</label>
             <input type="text" id="txtanexo" name="txtanexo" class="form-control" />
           </div>
           <div class="col-12 mt-3">

@@ -34,7 +34,7 @@ class Plugins
                     // 'bootstrap',
                     'sweetalert',
                     'toastr',
-                    // 'estilos',
+                    'estilos',
                 );
             } elseif ($arrScript_or_Type == 'print') {
                 $arrScript = array(

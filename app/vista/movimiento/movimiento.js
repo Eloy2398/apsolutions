@@ -2,7 +2,8 @@ $(function () {
     var DOM = {},
         tpl = {},
         data = {},
-        arrDetalle = [];
+        arrDetalle = [],
+        permitirGuardar = true;
 
     function init() {
         setDOM();
@@ -16,6 +17,7 @@ $(function () {
         DOM.mdlMovimiento = $('#mdlMovimiento');
         DOM.frmmovimiento = $('#frmmovimiento');
         DOM.tbodyTable = $('#tbodyTable');
+        DOM.txtcotizacion = $('#txtcotizacion');
         DOM.txtbusproducto = $('#txtbusproducto');
         DOM.txtbuscantidad = $('#txtbuscantidad');
         DOM.txtbusprecio = $('#txtbusprecio');
@@ -34,17 +36,19 @@ $(function () {
 
         setAutocompleteBuscarPersona();
         setAutocompleteBuscarProducto();
+        setAutocompleteBuscarCotizacion();
 
         DOM.mdlMovimiento.on('shown.bs.modal', function (ev) {
             DOM.frmmovimiento.find('.first-input').focus();
         }).on('hidden.bs.modal', function (ev) {
             DOM.frmmovimiento.find('input[type=hidden]').val('');
-            // DOM.frmmovimiento.find('select[name=cboestado]').parent().hide();
+            DOM.frmmovimiento.find('select[name=cboestado]').parent().hide();
             DOM.frmmovimiento[0].reset();
         }).on('hide.bs.modal', function (ev) {
             resetValores();
-            DOM.frmmovimiento.children('.modal-footer').find('button').attr('disabled', false);
             DOM.frmmovimiento.validate().resetForm();
+            DOM.mdlMovimiento.find('#div_busqueda_producto').show();
+            DOM.mdlMovimiento.find('.modal-footer').children().attr('disabled', false);
             DOM.mdlMovimiento.find('.modal-title').text('Nuevo');
         });
 
@@ -61,6 +65,8 @@ $(function () {
 
         DOM.tbodyTable.on('click', 'button[data-action=anular]', function (ev) {
             anular(this.parentNode.parentNode.id);
+        }).on('click', 'button[data-action=ver]', function (ev) {
+            verDetalle(this.parentNode.parentNode.id);
         });
 
         document.getElementById('btnagregar').addEventListener('click', function (ev) {
@@ -143,7 +149,50 @@ $(function () {
         }
     }
 
+    function setAutocompleteBuscarCotizacion() {
+        DOM.txtcotizacion.autocomplete({
+            minLength: 3,
+            source: function (request, response) {
+                new Ajxur.ApiGet({
+                    modelo: 'cotizacion',
+                    metodo: 'buscar',
+                    data_params: {
+                        query: request.term
+                    }
+                }, (xhr) => response(xhr.data));
+            },
+            select: function (event, ui) {
+                establecerIdCotizacion(ui.item);
+            },
+            change: function (event, ui) {
+                establecerIdCotizacion(ui.item);
+            }
+        }).autocomplete("instance")._renderItem = function (ul, item) {
+            return $("<li>")
+                .append("<div>"
+                    + "<span>" + item.id + "</span>"
+                    + "<span>" + item.nombreCliente + "</span>"
+                    + "</div>")
+                .appendTo(ul);
+        }
+    }
+
+    function establecerIdCotizacion(pData) {
+        if (pData == null) {
+            data.cotizacionId = 0;
+            data.personaId = 0;
+            DOM.txtanexo.val('');
+        } else {
+            data.cotizacionId = pData.id;
+            data.personaId = pData.idPersona;
+            DOM.txtanexo.val(pData.nombreCliente);
+            setTimeout(() => DOM.txtbusproducto.focus(), 100);
+        }
+    }
+
     function agregarDetalle() {
+        if (permitirGuardar == false) return;
+
         if (data.productoId == undefined || data.productoId == 0) {
             toastr.error('Seleccione producto válido');
             return;
@@ -157,8 +206,8 @@ $(function () {
         let pos = obtenerPosArrDetalle(data.productoId);
         if (pos == -1) {
             arrDetalle.push({
-                id: data.productoId,
-                nombre: DOM.txtbusproducto.val(),
+                idProducto: data.productoId,
+                nombreProducto: DOM.txtbusproducto.val(),
                 cantidad: Number(DOM.txtbuscantidad.val()),
                 precio: DOM.txtbusprecio.val(),
             });
@@ -185,24 +234,26 @@ $(function () {
     }
 
     function obtenerPosArrDetalle(id) {
-        return UtilArray.getPosition(arrDetalle, id, 'id');
+        return UtilArray.getPosition(arrDetalle, id, 'idProducto');
     }
 
-    function renderArrDetalle() {
-        DOM.tbodyDetalle.html(tpl.detalle(arrDetalle));
+    function renderArrDetalle(pArrDetalle) {
+        DOM.tbodyDetalle.html(tpl.detalle(pArrDetalle ?? arrDetalle));
     }
 
     function resetValores() {
         data = {};
         arrDetalle = [];
+        permitirGuardar = true;
         renderArrDetalle();
     }
 
     function guardar(form) {
+        if (permitirGuardar == false) return;
+
         UtilNotification.confirm(function (isConfirm) {
             if (isConfirm) {
-                let arrMovimientodetalleList = obtenerMovimientodetalleList();
-                if (arrMovimientodetalleList.length == 0) {
+                if (arrDetalle.length == 0) {
                     toastr.error('No se encontraron productos agregados');
                     return;
                 }
@@ -210,24 +261,14 @@ $(function () {
                 let objParams = {
                     fecha: form.elements.txtfecha.value,
                     tipo: form.elements.cbotipo.value,
+                    idPersona: data.personaId ?? 0,
                     descripcion: form.elements.txtdescripcion.value,
-                    movimientodetalleList: arrMovimientodetalleList,
-                }
-
-                if (data.personaId > 0) {
-                    objParams.persona = {
-                        id: data.personaId
-                    }
-                }
-
-                if (data.cotizacionId > 0) {
-                    objParams.cotizacion = {
-                        id: data.cotizacionId
-                    }
+                    idCotizacion: data.cotizacionId ?? 0,
+                    movimientodetalleList: arrDetalle,
                 }
 
                 UtilNotification.loading('Guardando datos', 'Espere un momento, por favor...');
-                DOM.frmmovimiento.children('.modal-footer').find('button').attr('disabled', true);
+                DOM.mdlMovimiento.find('.modal-footer').children().attr('disabled', true);
 
                 send_ajxur_request('ApiPost', 'guardar', (xhr) => {
                     swal.fire('Éxito', xhr.message, 'success');
@@ -236,22 +277,6 @@ $(function () {
                 }, objParams);
             }
         });
-    }
-
-    function obtenerMovimientodetalleList() {
-        let arrDetalleReturn = [];
-
-        arrDetalle.forEach((item) => {
-            arrDetalleReturn.push({
-                producto: {
-                    id: item.id
-                },
-                cantidad: item.cantidad,
-                precio: item.precio,
-            });
-        });
-
-        return arrDetalleReturn;
     }
 
     function anular(id) {
@@ -263,6 +288,22 @@ $(function () {
                 }, undefined, [id]);
             }
         }, "Confirmar", "¿Estás seguro de anular el registro?", "pregunta2");
+    }
+
+    function verDetalle(id) {
+        send_ajxur_request('ApiGet', 'leer', (xhr) => {
+            permitirGuardar = false;
+            let elementsForm = DOM.frmmovimiento[0].elements, xhrdata = xhr.data;
+            elementsForm.txtfecha.value = xhrdata.fecha;
+            elementsForm.cbotipo.value = xhrdata.tipo;
+            elementsForm.txtdescripcion.value = xhrdata.descripcion;
+            elementsForm.txtanexo.value = xhrdata.nombrePersona;
+            $(elementsForm.cboestado).val(xhrdata.estado ? 1 : 2).parent().show();
+            renderArrDetalle(xhrdata.movimientodetalleList);
+            DOM.mdlMovimiento.find('#div_busqueda_producto').hide();
+            DOM.mdlMovimiento.find('.modal-footer').children().attr('disabled', true);
+            DOM.mdlMovimiento.modal('show');
+        }, undefined, [id]);
     }
 
     function listar() {

@@ -77,8 +77,8 @@ $(function () {
             minLength: 3,
             source: function (request, response) {
                 new Ajxur.ApiGet({
-                    modelo: 'movimiento',
-                    metodo: 'buscarPersona',
+                    modelo: 'cotizacion',
+                    metodo: 'buscarCliente',
                     data_params: {
                         query: request.term
                     }
@@ -114,8 +114,8 @@ $(function () {
             minLength: 3,
             source: function (request, response) {
                 new Ajxur.ApiGet({
-                    modelo: 'movimiento',
-                    metodo: 'buscarProducto',
+                    modelo: 'producto',
+                    metodo: 'buscar',
                     data_params: {
                         query: request.term
                     }

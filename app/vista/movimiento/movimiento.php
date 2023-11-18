@@ -97,9 +97,9 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                       {{/if_}}
                     </td>
                     <td align="right">
-                      <button data-action="editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" class="btn options"><i class="bx bx-edit-alt me-1"></i></button>
+                      <button data-action="ver" data-bs-toggle="tooltip" data-bs-original-title="Ver detalle" class="btn options"><i class="bx bx-info-circle me-1"></i></button>
                       {{#if_ estado '==' '1'}}
-                        <button data-action="anular" data-bs-toggle="tooltip" data-bs-original-title="Anular" class="btn options"><i class="bx bx-no-entry me-1"></i></button>
+                        <button data-action="anular" data-bs-toggle="tooltip" data-bs-original-title="Anular" class="btn options"><i class="bx bx-block me-1"></i></button>
                       {{/if_}}
                     </td>
                   </tr>

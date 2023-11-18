@@ -38,13 +38,16 @@
             <label for="txtanexo" class="form-label">Cliente / Proveedor</label>
             <input type="text" id="txtanexo" name="txtanexo" class="form-control" />
           </div>
-          <div class="col-12 d-none">
+          <div class="col-12" style="display: none;">
             <label for="cboestado" class="form-label">Estado</label>
-            <select id="cboestado" name="cboestado" class="form-control" required></select>
+            <select id="cboestado" name="cboestado" class="form-control" required>
+              <option value="1">REGISTRADO</option>
+              <option value="2">ANULADO</option>
+            </select>
           </div>
           <div class="col-12 mt-3">
             <p class="border-bottom fs-5 offcanvas-title">Buscar productos</p>
-            <div class="input-group mt-2">
+            <div class="input-group mt-2" id="div_busqueda_producto">
               <input type="text" name="txtbusproducto" id="txtbusproducto" class="form-control rounded" placeholder="Ingrese nombre...">
               <div class="input-group-append ms-1" style="width: 15%;">
                 <input type="text" name="txtbuscantidad" id="txtbuscantidad" class="form-control text-end" placeholder="Cantidad">
@@ -61,13 +64,15 @@
                 <tbody id="tbodyDetalle">
                   <script type="handlebars-x" id="tpl_detalle">
                     {{#this}}
-                      <tr id="{{id}}">
-                        <td>{{nombre}}</td>
+                      <tr id="{{idProducto}}">
+                        <td>{{nombreProducto}}</td>
                         <td align="right">{{cantidad}}</td>
                         <td align="right">{{precio}}</td>
-                        <td align="center">
-                          <i class="bx bx-trash cursor-pointer"></i>
-                        </td>
+                        {{#if_ id '>' '0'}}
+                          <td align="center">
+                            <i class="bx bx-trash cursor-pointer"></i>
+                          </td>
+                        {{/if_}}
                       </tr>
                     {{/this}}
                   </script>
