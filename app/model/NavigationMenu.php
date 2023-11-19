@@ -32,6 +32,10 @@ class NavigationMenu
                 array('titulo' => 'Usuarios', 'url' => '../usuario/'),
                 array('titulo' => 'Mi Perfil', 'url' => '../usuarioperfil/'),
             ]),
+            array('titulo' => 'Reportes', 'icono' => 'bxs-report', 'submenu' => [
+                array('titulo' => 'Reporte de Cotización', 'url' => '../cotizacionreporte/'),
+                array('titulo' => 'Reporte de Movimientos', 'url' => '../movimientoreporte/'),
+            ]),
         );
     }
 
