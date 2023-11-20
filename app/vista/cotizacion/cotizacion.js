@@ -213,6 +213,7 @@ $(function () {
 
                 let objParams = {
                     fecha: form.elements.txtfecha.value,
+                    origen: 1,
                     cotizaciondetalleList: arrCotizaciondetalleList,
                 }
 

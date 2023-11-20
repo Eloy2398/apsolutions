@@ -4,22 +4,34 @@ $(function () {
 
     function init() {
         setDOM();
-        // setTemplates();
+        setTemplates();
         setEvents();
 
-        // listar();
+        listar();
     }
 
-    function setEvents() {
-        UtilGlobal.setDatepickerBetween('txt_fil_ven_fec1','txt_fil_ven_fec2');
-
-        setAutocompleteBuscarCliente();
+    function setTemplates() {
+        tpl = UtilGlobal.Templater($('script[type=handlebars-x]'));
     }
 
     function setDOM() {
         DOM.tbodyTable = $('#tbodyTable');
         DOM.hdd_cli_id = $('#hdd_cli_id');
         DOM.txt_fil_cli_nom = $('#txt_fil_cli_nom');
+        DOM.txt_fil_ven_fec1 = $('#txt_fil_ven_fec1');
+        DOM.txt_fil_ven_fec2 = $('#txt_fil_ven_fec2');
+        DOM.txt_fil_ven_fec2 = $('#txt_fil_ven_fec2');
+        DOM.btn_filtrar = $('#btn_filtrar');
+    }
+
+    function setEvents() {
+        UtilGlobal.setDatepickerBetween('txt_fil_ven_fec1','txt_fil_ven_fec2');
+
+        setAutocompleteBuscarCliente();
+
+        DOM.btn_filtrar.on('click', function (ev) {
+            listar();
+        });
     }
 
     function setAutocompleteBuscarCliente() {
@@ -48,6 +60,20 @@ $(function () {
                     + "</div>")
                 .appendTo(ul);
         }
+    }
+
+    function listar() {
+        send_ajxur_request('ApiPost', 'reporte', function (xhr) {
+            DOM.tbodyTable.html(tpl.table(xhr.data));
+        }, {
+            idCliente: DOM.hdd_cli_id.val(),
+            fecha1: DOM.txt_fil_ven_fec1.val(),
+            fecha2: DOM.txt_fil_ven_fec2.val()
+        });
+    }
+
+    function send_ajxur_request(requestType, method, fnOk, data_in, data_out) {
+        UtilGlobal.sendAjxurRequest('cotizacion', requestType, method, fnOk, data_in, data_out);
     }
     
 

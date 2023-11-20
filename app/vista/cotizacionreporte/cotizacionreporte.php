@@ -62,14 +62,14 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                                 <input class="form-control" name="txt_fil_ven_fec2" type="text" id="txt_fil_ven_fec2" value="<?php echo date('d-m-Y '); ?>" readonly>
                             </div>
                             <div class="col-1" style="margin-left: 15px;">
-                                <label for="txt_fil_ven_fec1" class="col-form-label">Cliente</label>
+                                <label for="txt_fil_cli_nom" class="col-form-label">Cliente</label>
                             </div>
                             <div class="input-group-prepend col-3">
                                 <input type="hidden" name="hdd_cli_id" id="hdd_cli_id">
                                 <input class="form-control" name="txt_fil_cli_nom" type="text" id="txt_fil_cli_nom" value="">
                             </div>
                             <div class="col-1" style="margin-left: 15px;">
-                                <button class="btn btn-success" type="button">Filtrar</button>
+                                <button class="btn btn-success" type="button" id="btn_filtrar">Filtrar</button>
                             </div>
                         </div>
                     </div>
@@ -86,6 +86,7 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                       <th>Fecha</th>
                       <th>DNI/RUC</th>
                       <th>Nombre</th>
+                      <th>Origen</th>
                       <th>Estado</th>
                       <th></th>
                     </tr>
@@ -99,19 +100,30 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                 {{#this}}
                   <tr id="{{id}}">
                     <td>{{fecha}}</td>
-                    <td>{{clienteDocumento}}</td>
-                    <td>{{clienteNombre}}</td>
+                    <td>{{docCliente}}</td>
+                    <td>{{nomCliente}}</td>
                     <td>
-                      {{#if estado}}
+                      {{#if_ origen '==' '1'}}
+                        <span>ADMINISTRADOR</span>
+                      {{/if_}}
+                      {{#if_ origen '==' '2'}}
+                        <span>WEB</span>
+                      {{/if_}}
+                    </td>
+                    <td>
+                      {{#if_ estado '==' '1'}}
                         <span class="text-success">REGISTRADO</span>
-                      {{else}}
+                      {{/if_}}
+                      {{#if_ estado '==' '2'}}
                         <span class="text-danger">ANULADO</span>
-                      {{/if}}
+                      {{/if_}}
+                      {{#if_ estado '==' '3'}}
+                        <span class="text-info">PROCESADO</span>
+                      {{/if_}}
                     </td>
                     <td align="center">
-                      <!-- <button data-action="editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" class="btn options"><i class="bx bx-search-alt me-1"></i></button> -->
+                      <button data-action="editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" class="btn options"><i class="bx bx-search-alt me-1"></i></button>
                       <button data-action="pdf" data-bs-toggle="tooltip" data-bs-original-title="PDF" class="btn options">PDF</button>
-                      <button data-action="anular" data-bs-toggle="tooltip" data-bs-original-title="Anular" class="btn options"><i class="bx bx-block me-1"></i></button>
                     </td>
                   </tr>
                 {{/this}}
