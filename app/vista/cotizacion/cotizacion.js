@@ -213,15 +213,16 @@ $(function () {
 
                 let objParams = {
                     fecha: form.elements.txtfecha.value,
+                    idCliente: data.clienteId ?? 0,
                     origen: 1,
                     cotizaciondetalleList: arrCotizaciondetalleList,
                 }
 
-                if (data.clienteId > 0) {
-                    objParams.cliente = {
-                        id: data.clienteId
-                    }
-                }
+                // if (data.clienteId > 0) {
+                //     objParams.cliente = {
+                //         id: data.clienteId
+                //     }
+                // }
 
                 UtilNotification.loading('Guardando datos', 'Espere un momento, por favor...');
                 DOM.frmcotizacion.children('.modal-footer').find('button').attr('disabled', true);
@@ -240,9 +241,10 @@ $(function () {
 
         arrDetalle.forEach((item) => {
             arrDetalleReturn.push({
-                producto: {
-                    id: item.id
-                },
+                // producto: {
+                //     id: item.id
+                // },
+                idProducto: item.id,
                 cantidad: item.cantidad,
                 precio: item.precio,
             });
