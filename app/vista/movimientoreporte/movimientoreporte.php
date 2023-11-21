@@ -62,11 +62,11 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                                 <input class="form-control" name="txt_fil_fec2" type="text" id="txt_fil_fec2" value="<?php echo date('d-m-Y '); ?>" readonly>
                             </div>
                             <div class="col-1" style="margin-left: 15px;">
-                                <label for="txt_fil_cli_nom" class="col-form-label">Cliente</label>
+                                <label for="txt_fil_pro_nom" class="col-form-label">Producto</label>
                             </div>
                             <div class="input-group-prepend col-3">
-                                <input type="hidden" name="hdd_cli_id" id="hdd_cli_id">
-                                <input class="form-control" name="txt_fil_cli_nom" type="text" id="txt_fil_cli_nom" value="">
+                                <input type="hidden" name="hdd_pro_id" id="hdd_pro_id">
+                                <input class="form-control" name="txt_fil_pro_nom" type="text" id="txt_fil_pro_nom" value="">
                             </div>
                             <div class="col-1" style="margin-left: 15px;">
                                 <button class="btn btn-success" type="button" id="btn_filtrar">Filtrar</button>
@@ -84,11 +84,9 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                   <thead>
                     <tr>
                       <th>Fecha</th>
-                      <th>DNI/RUC</th>
-                      <th>Nombre</th>
-                      <th>Origen</th>
-                      <th>Estado</th>
-                      <th></th>
+                      <th>TIPO</th>
+                      <th>Cantidad</th>
+                      <th>Precio</th>
                     </tr>
                   </thead>
                   <tbody class="table-border-bottom-0" id="tbodyTable">
@@ -98,33 +96,17 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
 
               <script type="handlebars-x" id="tpl_table">
                 {{#this}}
-                  <tr id="{{id}}">
+                  <tr id="{{idMovimiento}}">
                     <td>{{fecha}}</td>
-                    <td>{{docCliente}}</td>
-                    <td>{{nomCliente}}</td>
                     <td>
-                      {{#if_ origen '==' '1'}}
-                        <span>ADMINISTRADOR</span>
-                      {{/if_}}
-                      {{#if_ origen '==' '2'}}
-                        <span>WEB</span>
-                      {{/if_}}
-                    </td>
-                    <td>
-                      {{#if_ estado '==' '1'}}
-                        <span class="text-success">REGISTRADO</span>
-                      {{/if_}}
-                      {{#if_ estado '==' '2'}}
-                        <span class="text-danger">ANULADO</span>
-                      {{/if_}}
-                      {{#if_ estado '==' '3'}}
-                        <span class="text-info">PROCESADO</span>
+                      {{#if_ tipooperacion '==' '1'}}
+                        <span>INGRESO</span>
+                        {{else}}
+                          <span>EGRESO</span>
                       {{/if_}}
                     </td>
-                    <td align="center">
-                      <button data-action="editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" class="btn options"><i class="bx bx-search-alt me-1"></i></button>
-                      <button data-action="pdf" data-bs-toggle="tooltip" data-bs-original-title="PDF" class="btn options">PDF</button>
-                    </td>
+                    <td>{{cantidad}}</td>
+                    <td>{{precio}}</td>
                   </tr>
                 {{/this}}
               </script>
@@ -148,7 +130,7 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
   </div>
   <?php echo $oAccesoVista->cargarJs(); ?>
 
-  <script type="text/javascript" src="cotizacionreporte.js"></script>
+  <script type="text/javascript" src="movimientoreporte.js"></script>
 </body>
 
 </html>
