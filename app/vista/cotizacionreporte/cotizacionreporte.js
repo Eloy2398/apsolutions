@@ -16,6 +16,9 @@ $(function () {
 
     function setDOM() {
         DOM.tbodyTable = $('#tbodyTable');
+        DOM.tbodyDetalle = $('#tbodyDetalle');
+        DOM.mdlCotizacion = $('#mdlCotizacion');
+        DOM.frmcotizacion = $('#frmcotizacion');
         DOM.hdd_cli_id = $('#hdd_cli_id');
         DOM.txt_fil_cli_nom = $('#txt_fil_cli_nom');
         DOM.txt_fil_fec1 = $('#txt_fil_fec1');
@@ -30,6 +33,10 @@ $(function () {
 
         DOM.btn_filtrar.on('click', function (ev) {
             listar();
+        });
+
+        DOM.tbodyTable.on('click', 'button[data-action=editar]', function (ev) {
+            verDetalle(this.parentNode.parentNode.id);
         });
     }
 
@@ -59,6 +66,23 @@ $(function () {
                     + "</div>")
                 .appendTo(ul);
         }
+    }
+
+    function renderArrDetalle(pArrDetalle) {
+        DOM.tbodyDetalle.html(tpl.detalle(pArrDetalle ?? arrDetalle));
+    }
+
+    function verDetalle(id) {
+        send_ajxur_request('ApiGet', 'leer', (xhr) => {
+            permitirGuardar = false;
+            let elementsForm = DOM.frmcotizacion[0].elements, xhrdata = xhr.data;
+            elementsForm.txtfecha.value = xhrdata.fecha;
+            elementsForm.txtanexo.value = xhrdata.nombreCliente;
+            renderArrDetalle(xhrdata.cotizaciondetalleList);
+            DOM.mdlCotizacion.find('#div_busqueda_producto').hide();
+            DOM.mdlCotizacion.find('.modal-footer').children().attr('disabled', true);
+            DOM.mdlCotizacion.modal('show');
+        }, undefined, [id]);
     }
 
     function listar() {

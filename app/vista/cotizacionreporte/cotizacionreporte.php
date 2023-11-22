@@ -43,6 +43,9 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
           <div class="container-xxl flex-grow-1 container-p-y">
             <?php include '../../resources/complements/partials/header.php'; ?>
 
+            <!-- Modal form -->
+            <?php include_once '../cotizacion/form.php'; ?>
+
             <div class="card">
               <div class="card-header header-elements justify-content-between">
                 
@@ -98,7 +101,7 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
 
               <script type="handlebars-x" id="tpl_table">
                 {{#this}}
-                  <tr id="{{id}}">
+                  <tr id="{{idCotizacion}}">
                     <td>{{fecha}}</td>
                     <td>{{docCliente}}</td>
                     <td>{{nomCliente}}</td>

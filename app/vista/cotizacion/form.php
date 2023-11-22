@@ -20,7 +20,7 @@
           </div>
           <div class="col-12 mt-3">
             <p class="border-bottom fs-5 offcanvas-title">Buscar productos</p>
-            <div class="input-group mt-2">
+            <div class="input-group mt-2" id="div_busqueda_producto">
               <input type="text" name="txtbusproducto" id="txtbusproducto" class="form-control rounded" placeholder="Ingrese nombre...">
               <div class="input-group-append ms-1" style="width: 15%;">
                 <input type="text" name="txtbuscantidad" id="txtbuscantidad" class="form-control text-end" placeholder="Cantidad">
@@ -37,12 +37,16 @@
                 <tbody id="tbodyDetalle">
                   <script type="handlebars-x" id="tpl_detalle">
                     {{#this}}
-                      <tr id="{{id}}">
-                        <td>{{nombre}}</td>
+                      <tr id="{{idProducto}}">
+                        <td>{{nombreProducto}}</td>
                         <td align="right">{{cantidad}}</td>
                         <td align="right">{{precio}}</td>
                         <td align="center">
-                          <i class="bx bx-trash cursor-pointer"></i>
+                          {{#if_ idProducto '>' '0'}}
+                            <td align="center">
+                              <i class="bx bx-trash cursor-pointer"></i>
+                            </td>
+                          {{/if_}}
                         </td>
                       </tr>
                     {{/this}}

@@ -44,6 +44,7 @@ $(function () {
             resetValores();
             DOM.frmcotizacion.children('.modal-footer').find('button').attr('disabled', false);
             DOM.frmcotizacion.validate().resetForm();
+            DOM.mdlCotizacion.find('#div_busqueda_producto').show();
             DOM.mdlCotizacion.find('.modal-title').text('Nuevo');
         });
 
@@ -63,7 +64,7 @@ $(function () {
         });
 
         DOM.tbodyTable.on('click', 'button[data-action=editar]', function (ev) {
-            leerDatos(this.parentNode.parentNode.id);
+            verDetalle(this.parentNode.parentNode.id);
         });
 
         document.getElementById('btnagregar').addEventListener('click', function (ev) {
@@ -161,8 +162,8 @@ $(function () {
         let pos = obtenerPosArrDetalle(data.productoId);
         if (pos == -1) {
             arrDetalle.push({
-                id: data.productoId,
-                nombre: DOM.txtbusproducto.val(),
+                idProducto: data.productoId,
+                nombreProducto: DOM.txtbusproducto.val(),
                 cantidad: Number(DOM.txtbuscantidad.val()),
                 precio: DOM.txtbusprecio.val(),
             });
@@ -192,8 +193,8 @@ $(function () {
         return UtilArray.getPosition(arrDetalle, id, 'id');
     }
 
-    function renderArrDetalle() {
-        DOM.tbodyDetalle.html(tpl.detalle(arrDetalle));
+    function renderArrDetalle(pArrDetalle) {
+        DOM.tbodyDetalle.html(tpl.detalle(pArrDetalle ?? arrDetalle));
     }
 
     function resetValores() {
@@ -244,7 +245,7 @@ $(function () {
                 // producto: {
                 //     id: item.id
                 // },
-                idProducto: item.id,
+                idProducto: item.idProducto,
                 cantidad: item.cantidad,
                 precio: item.precio,
             });
@@ -253,15 +254,15 @@ $(function () {
         return arrDetalleReturn;
     }
 
-    function leerDatos(id) {
-        send_ajxur_request('ApiGet', 'leer', function (xhr) {
-            DOM.mdlCotizacion.find('.modal-title').text('Editar');
-            console.log(xhr);
-            // let xhrdata = xhr.data, elementsForm = DOM.frmcriterio[0].elements;
-            // UtilGlobal.setDataFormulario(elementsForm, xhrdata);
-            // elementsForm.hddid.value = id;
-            // DOM.tbodyDetalle.html(tpl.opcionTable(xhrdata.criterioopcionList));
-
+    function verDetalle(id) {
+        send_ajxur_request('ApiGet', 'leer', (xhr) => {
+            permitirGuardar = false;
+            let elementsForm = DOM.frmcotizacion[0].elements, xhrdata = xhr.data;
+            elementsForm.txtfecha.value = xhrdata.fecha;
+            elementsForm.txtanexo.value = xhrdata.nombreCliente;
+            renderArrDetalle(xhrdata.cotizaciondetalleList);
+            DOM.mdlCotizacion.find('#div_busqueda_producto').hide();
+            DOM.mdlCotizacion.find('.modal-footer').children().attr('disabled', true);
             DOM.mdlCotizacion.modal('show');
         }, undefined, [id]);
     }
