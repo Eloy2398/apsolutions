@@ -27,7 +27,7 @@ $(function () {
     }
 
     function setEvents() {
-        UtilGlobal.setDatepickerBetween('txt_fil_fec1','txt_fil_fec2');
+        UtilGlobal.setDatepickerBetween('txt_fil_fec1', 'txt_fil_fec2');
 
         setAutocompleteBuscarCliente();
 
@@ -98,7 +98,7 @@ $(function () {
     function send_ajxur_request(requestType, method, fnOk, data_in, data_out) {
         UtilGlobal.sendAjxurRequest('cotizacion', requestType, method, fnOk, data_in, data_out);
     }
-    
+
 
     init();
 });

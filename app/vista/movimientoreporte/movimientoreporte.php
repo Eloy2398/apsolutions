@@ -21,12 +21,12 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
       display: inline-block;
     }
 
-    #ui-id-4>li>div>span:nth-child(1){
-        width: 25%;
+    #ui-id-4>li>div>span:nth-child(1) {
+      width: 25%;
     }
 
-    #ui-id-4>li>div>span:nth-child(2){
-        width: 75%;
+    #ui-id-4>li>div>span:nth-child(2) {
+      width: 75%;
     }
   </style>
 </head>
@@ -45,36 +45,36 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
 
             <div class="card">
               <div class="card-header header-elements justify-content-between">
-                
+
                 <form class="col-12" id="frmCotizacionfiltro">
-                    <div class="col-12 mb-3">
-                        <div class="input-group input-group-sm">
-                            <div class="col-1">
-                                <label for="txt_fil_fec1" class="col-form-label">Fecha</label>
-                            </div>
-                            <div class="input-group-prepend">
-                                <input class="form-control" name="txt_fil_fec1" type="text" id="txt_fil_fec1" value="<?php echo date('d-m-Y'); ?>" readonly>
-                            </div>
-                            <div class="input-group-prepend">
-                                <label for="txt_fil_fec2" class="input-group-text" style="border-left: 0">-</label>
-                            </div>
-                            <div class="input-group-prepend">
-                                <input class="form-control" name="txt_fil_fec2" type="text" id="txt_fil_fec2" value="<?php echo date('d-m-Y '); ?>" readonly>
-                            </div>
-                            <div class="col-1" style="margin-left: 15px;">
-                                <label for="txt_fil_pro_nom" class="col-form-label">Producto</label>
-                            </div>
-                            <div class="input-group-prepend col-3">
-                                <input type="hidden" name="hdd_pro_id" id="hdd_pro_id">
-                                <input class="form-control" name="txt_fil_pro_nom" type="text" id="txt_fil_pro_nom" value="">
-                            </div>
-                            <div class="col-1" style="margin-left: 15px;">
-                                <button class="btn btn-success" type="button" id="btn_filtrar">Filtrar</button>
-                            </div>
-                        </div>
+                  <div class="col-12 mb-3">
+                    <div class="input-group input-group-sm">
+                      <div class="col-1">
+                        <label for="txt_fil_fec1" class="col-form-label">Fecha</label>
+                      </div>
+                      <div class="input-group-prepend">
+                        <input class="form-control" name="txt_fil_fec1" type="text" id="txt_fil_fec1" value="<?php echo date('d-m-Y'); ?>" readonly>
+                      </div>
+                      <div class="input-group-prepend">
+                        <label for="txt_fil_fec2" class="input-group-text" style="border-left: 0">-</label>
+                      </div>
+                      <div class="input-group-prepend">
+                        <input class="form-control" name="txt_fil_fec2" type="text" id="txt_fil_fec2" value="<?php echo date('d-m-Y '); ?>" readonly>
+                      </div>
+                      <div class="col-1" style="margin-left: 15px;">
+                        <label for="txt_fil_pro_nom" class="col-form-label">Producto</label>
+                      </div>
+                      <div class="input-group-prepend col-3">
+                        <input type="hidden" name="hdd_pro_id" id="hdd_pro_id">
+                        <input class="form-control" name="txt_fil_pro_nom" type="text" id="txt_fil_pro_nom" value="">
+                      </div>
+                      <div class="col-1" style="margin-left: 15px;">
+                        <button class="btn btn-success" type="button" id="btn_filtrar">Filtrar</button>
+                      </div>
                     </div>
+                  </div>
                 </form>
-                
+
                 <div class="card-title-elements">
                   <h5 class="card-title mb-0">Mis registros</h5>
                 </div>
