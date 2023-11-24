@@ -54,12 +54,12 @@
               <span class="align-middle">Mi perfil</span>
             </a>
           </li>
-          <li>
+          <!-- <li>
             <a class="dropdown-item" href="#">
               <i class="bx bx-cog me-2"></i>
               <span class="align-middle">Configuraciones</span>
             </a>
-          </li>
+          </li> -->
           <li>
             <div class="dropdown-divider"></div>
           </li>
