@@ -34,10 +34,6 @@ $(function () {
         DOM.btn_filtrar.on('click', function (ev) {
             listar();
         });
-
-        DOM.tbodyTable.on('click', 'button[data-action=editar]', function (ev) {
-            verDetalle(this.parentNode.parentNode.id);
-        });
     }
 
     function setAutocompleteBuscarCliente() {
@@ -66,23 +62,6 @@ $(function () {
                     + "</div>")
                 .appendTo(ul);
         }
-    }
-
-    function renderArrDetalle(pArrDetalle) {
-        DOM.tbodyDetalle.html(tpl.detalle(pArrDetalle ?? arrDetalle));
-    }
-
-    function verDetalle(id) {
-        send_ajxur_request('ApiGet', 'leer', (xhr) => {
-            permitirGuardar = false;
-            let elementsForm = DOM.frmcotizacion[0].elements, xhrdata = xhr.data;
-            elementsForm.txtfecha.value = xhrdata.fecha;
-            elementsForm.txtanexo.value = xhrdata.nombreCliente;
-            renderArrDetalle(xhrdata.cotizaciondetalleList);
-            DOM.mdlCotizacion.find('#div_busqueda_producto').hide();
-            DOM.mdlCotizacion.find('.modal-footer').children().attr('disabled', true);
-            DOM.mdlCotizacion.modal('show');
-        }, undefined, [id]);
     }
 
     function listar() {

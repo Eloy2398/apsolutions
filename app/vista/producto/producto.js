@@ -24,6 +24,13 @@ $(function () {
         DOM.txtcaracteristicanombre = $('#txtcaracteristicanombre');
         DOM.txtcaracteristicavalor = $('#txtcaracteristicavalor');
         DOM.btncaracteristicaagregar = $('#btncaracteristicaagregar');
+
+        // FILTROS
+        DOM.cmb_fil_tip = $("#cmb_fil_tip");
+        DOM.txt_fil_pro_nom = $("#txt_fil_pro_nom");
+        DOM.cbo_fil_marca = $("#cbo_fil_marca");
+        DOM.cbo_fil_cat = $("#cbo_fil_cat");
+        DOM.btn_filtrar = $('#btn_filtrar');
     }
 
     function setTemplates() {
@@ -80,6 +87,18 @@ $(function () {
 
         UtilNumber.setFormatNumberDecimal(document.getElementById('txtprecio'));
         UtilNumber.setFormatNumber(document.getElementById('txtstock'));
+
+        // FILTROS
+        DOM.cmb_fil_tip.on('change', function(){
+            if(DOM.cmb_fil_tip.val()==1){
+                DOM.txt_fil_pro_nom.attr("placeholder","Ingrese el código de barras");
+            }else{
+                DOM.txt_fil_pro_nom.attr("placeholder","Ingrese el nombre del producto");
+            }
+        });
+        DOM.btn_filtrar.on('click', function (ev) {
+            listar();
+        });
     }
 
     function caracteristicaAgregar() {
@@ -240,15 +259,29 @@ $(function () {
     }
 
     function listar() {
-        send_ajxur_request('ApiGet', 'listar', function (xhr) {
-            DOM.tbodyTable.html(tpl.table(xhr.data));
-        });
+        // send_ajxur_request('ApiGet', 'listar', function (xhr) {
+        //     DOM.tbodyTable.html(tpl.table(xhr.data));
+        // });
+        new Ajxur.ApiGet({
+			modelo: 'producto',
+			metodo: 'listar',
+			data_params: {
+				tipo: DOM.cmb_fil_tip.val(),
+				nombre: DOM.txt_fil_pro_nom.val(),
+                idCategoria: DOM.cbo_fil_cat.val(),
+                idMarca: DOM.cbo_fil_marca.val()
+			}
+		}, (xhr) => {
+			DOM.tbodyTable.html(tpl.table(xhr.data));
+		});
     }
 
     function cargarDatosExtra() {
         send_ajxur_request('ApiGet', 'cargarDatosExtra', function (xhr) {
             document.getElementById('cbocategoria').innerHTML = tpl.combo({ optionHolder: 'Seleccione', data: xhr.data.categoriaList });
             document.getElementById('cbomarca').innerHTML = tpl.combo({ optionHolder: 'Seleccione', data: xhr.data.marcaList });
+            document.getElementById('cbo_fil_cat').innerHTML = tpl.combo({ optionHolder: 'Seleccione', data: xhr.data.categoriaList });
+            document.getElementById('cbo_fil_marca').innerHTML = tpl.combo({ optionHolder: 'Seleccione', data: xhr.data.marcaList });
             data.criterioopcionList = xhr.data.criterioopcionList;
             DOM.tbodyCriterioopcion.html(tpl.criterioopcion(data.criterioopcionList));
         });

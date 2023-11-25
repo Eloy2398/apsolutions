@@ -43,9 +43,6 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
           <div class="container-xxl flex-grow-1 container-p-y">
             <?php include '../../resources/complements/partials/header.php'; ?>
 
-            <!-- Modal form -->
-            <?php include_once '../cotizacion/form.php'; ?>
-
             <div class="card mb-2">
               <div class="card-body">
                 <form id="frmCotizacionfiltro" class="form-inline">
@@ -90,7 +87,7 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                       <th>Nombre</th>
                       <th>Origen</th>
                       <th>Estado</th>
-                      <th></th>
+                      <!-- <th></th> -->
                     </tr>
                   </thead>
                   <tbody class="table-border-bottom-0" id="tbodyTable">
@@ -123,10 +120,10 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                         <span class="text-info">PROCESADO</span>
                       {{/if_}}
                     </td>
-                    <td align="center">
+                    <!-- <td align="center">
                       <button data-action="editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" class="btn options"><i class="bx bx-search-alt me-1"></i></button>
                       <button data-action="pdf" data-bs-toggle="tooltip" data-bs-original-title="PDF" class="btn options">PDF</button>
-                    </td>
+                    </td> -->
                   </tr>
                 {{/this}}
               </script>
