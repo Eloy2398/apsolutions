@@ -59,17 +59,21 @@ $(function () {
     }
 
     function listar() {
-        send_ajxur_request('ApiPost', 'reporte', function (xhr) {
-            DOM.tbodyTable.html(tpl.table(xhr.data));
-        }, {
-            idProducto: DOM.hdd_pro_id.val(),
-            fecha1: DOM.txt_fil_fec1.val(),
-            fecha2: DOM.txt_fil_fec2.val()
-        });
-    }
+        new Ajxur.ApiGet({
+			modelo: 'movimiento',
+			metodo: 'reporte',
+			data_params: {
+                idProducto: DOM.hdd_pro_id.val(),
+                fecha1: DOM.txt_fil_fec1.val(),
+                fecha2: DOM.txt_fil_fec2.val()
+			}
+		}, (xhr) => {
+            if(xhr.status === false){
+                toastr.error(xhr.message);
+            }
 
-    function send_ajxur_request(requestType, method, fnOk, data_in, data_out) {
-        UtilGlobal.sendAjxurRequest('movimiento', requestType, method, fnOk, data_in, data_out);
+			DOM.tbodyTable.html(tpl.table(xhr.data));
+		});
     }
 
 

@@ -65,17 +65,17 @@ $(function () {
     }
 
     function listar() {
-        send_ajxur_request('ApiPost', 'reporte', function (xhr) {
-            DOM.tbodyTable.html(tpl.table(xhr.data));
-        }, {
-            idCliente: DOM.hdd_cli_id.val(),
-            fecha1: DOM.txt_fil_fec1.val(),
-            fecha2: DOM.txt_fil_fec2.val()
-        });
-    }
-
-    function send_ajxur_request(requestType, method, fnOk, data_in, data_out) {
-        UtilGlobal.sendAjxurRequest('cotizacion', requestType, method, fnOk, data_in, data_out);
+        new Ajxur.ApiGet({
+			modelo: 'cotizacion',
+			metodo: 'reporte',
+			data_params: {
+                idCliente: DOM.hdd_cli_id.val(),
+                fecha1: DOM.txt_fil_fec1.val(),
+                fecha2: DOM.txt_fil_fec2.val()
+			}
+		}, (xhr) => {
+			DOM.tbodyTable.html(tpl.table(xhr.data));
+		});
     }
 
 
