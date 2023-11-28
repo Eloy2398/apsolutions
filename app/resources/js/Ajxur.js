@@ -74,6 +74,12 @@ var Ajxur = {
         type: type,
       };
 
+      if (params.responseTypeBlob) {
+        objAjax.xhrFields = {
+          responseType: 'blob'
+        }
+      }
+
       if (params.data_params) {
         objAjax.data = params.data_params;
       }
@@ -145,12 +151,12 @@ var Ajxur = {
         error = JSON.parse(error);
       }
 
-      if (typeof callbackFunctionError != "function") {
+      if (typeof callbackFunctionError === 'function') {
         callbackFunctionError(error.responseText);
       } else {
         var datosJSON = JSON.parse(error.responseText);
-        console.error(datosJSON.mensaje);
-        alert(datosJSON.mensaje);
+        console.error(datosJSON.message);
+        alert(datosJSON.message);
       }
     }
 
