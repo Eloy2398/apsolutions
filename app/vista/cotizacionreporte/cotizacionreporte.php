@@ -70,7 +70,8 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                     </div>
 
                     <div class="col-lg-auto col-12 text-end">
-                      <button class="btn btn-success" type="button" id="btn_filtrar">Filtrar</button>
+                      <button class="btn btn-info" type="button" id="btn_filtrar">Filtrar</button>
+                      <button class="btn btn-success" type="button" id="btn_excel">Excel</button>
                     </div>
                   </div>
                 </form>
@@ -131,6 +132,8 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
             </div>
 
           </div>
+
+          <a id="downloadLink" style="display: none;"></a>
 
           <?php include '../../resources/complements/partials/pie.php'; ?>
 

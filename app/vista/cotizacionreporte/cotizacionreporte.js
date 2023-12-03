@@ -34,6 +34,10 @@ $(function () {
         DOM.btn_filtrar.on('click', function (ev) {
             listar();
         });
+
+        document.getElementById('btn_excel').addEventListener('click', function (ev) {
+            exportarExcel();
+        });
     }
 
     function setAutocompleteBuscarCliente() {
@@ -76,6 +80,31 @@ $(function () {
 		}, (xhr) => {
 			DOM.tbodyTable.html(tpl.table(xhr.data));
 		});
+    }
+
+    function exportarExcel() {
+        new Ajxur.ApiGet({
+            modelo: 'cotizacion',
+            metodo: 'reporte/excel',
+            responseTypeBlob: true,
+            data_params: {
+                idCliente: DOM.hdd_cli_id.val(),
+                fecha1: DOM.txt_fil_fec1.val(),
+                fecha2: DOM.txt_fil_fec2.val()
+            }
+        }, (xhrdata) => {
+            var downloadLink = document.getElementById('downloadLink');
+            var blob = new Blob([xhrdata], { type: 'application/octet-stream' });
+            var url = window.URL.createObjectURL(blob);
+            downloadLink.href = url;
+            downloadLink.download = 'cotizacionReport_' + (new Date()).getTime() + '.xlsx';
+
+            downloadLink.click();
+
+            window.URL.revokeObjectURL(url);
+        }, (xhrError) => {
+            toastr.error('Error inesperado');
+        });
     }
 
 
