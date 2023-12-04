@@ -2,7 +2,7 @@
 require_once '../../config/init.php';
 
 $oAccesoVista = new model\AccesoVista();
-$oVista = $oAccesoVista->obtenerVista('default', ['controller']);
+$oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number']);
 
 ?>
 <!DOCTYPE html>
@@ -40,6 +40,18 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                         <div class="col-12">
                           <label for="txtnombre" class="form-label">Nombre</label>
                           <input type="text" id="txtnombre" name="txtnombre" class="form-control first-input" required />
+                        </div>
+                        <div class="col-12">
+                          <div class="form-group">
+                            <label for="txtordenmostrar" class="form-label">Orden mostrar</label>
+                            <input type="text" id="txtordenmostrar" name="txtordenmostrar" class="form-control first-input" required />
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <div class="form-group">
+                            <label for="txtnivelimportancia" class="form-label">Nivel importancia</label>
+                            <input type="text" id="txtnivelimportancia" name="txtnivelimportancia" class="form-control first-input" min="1" max="10" required />
+                          </div>
                         </div>
                       </div>
                       <div class="row">
@@ -92,6 +104,8 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                   <thead>
                     <tr>
                       <th>Nombre</th>
+                      <th class="text-center">Orden mostrar</th>
+                      <th class="text-center">Nivel importancia</th>
                       <th>Opciones</th>
                       <th></th>
                     </tr>
@@ -105,6 +119,8 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                 {{#this}}
                   <tr id="{{id}}">
                     <td>{{nombre}}</td>
+                    <td align="center">{{ordenMostrar}}</td>
+                    <td align="center">{{nivelImportancia}}</td>
                     <td>
                       {{#each criterioopcionList}}
                         <span>- {{descripcion}}</span><br>
