@@ -70,16 +70,16 @@ $(function () {
 
     function listar() {
         new Ajxur.ApiGet({
-			modelo: 'cotizacion',
-			metodo: 'reporte',
-			data_params: {
+            modelo: 'cotizacion',
+            metodo: 'reporte',
+            data_params: {
                 idCliente: DOM.hdd_cli_id.val(),
                 fecha1: DOM.txt_fil_fec1.val(),
                 fecha2: DOM.txt_fil_fec2.val()
-			}
-		}, (xhr) => {
-			DOM.tbodyTable.html(tpl.table(xhr.data));
-		});
+            }
+        }, (xhr) => {
+            DOM.tbodyTable.html(tpl.table(xhr.data));
+        });
     }
 
     function exportarExcel() {
@@ -106,7 +106,6 @@ $(function () {
             toastr.error('Error inesperado');
         });
     }
-
 
     init();
 });
