@@ -14,7 +14,7 @@
                 <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-1" aria-controls="navs-top-1" aria-selected="true">Principal</button>
               </li>
               <li class="nav-item">
-                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-2" aria-controls="navs-top-2" aria-selected="true">Características</button>
+                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-2" aria-controls="navs-top-2" aria-selected="true">Especificaciones</button>
               </li>
               <li class="nav-item">
                 <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-3" aria-controls="navs-top-3" aria-selected="true">Criterios de evaluación</button>
@@ -62,7 +62,7 @@
               </div>
               <div class="tab-pane fade" id="navs-top-2" role="tabpanel">
                 <div class="input-group">
-                  <input type="text" class="form-control rounded" name="txtcaracteristicanombre" id="txtcaracteristicanombre" placeholder="Característica">
+                  <input type="text" class="form-control rounded" name="txtcaracteristicanombre" id="txtcaracteristicanombre" placeholder="Nombre">
                   <div class="input-group-append ms-1 w-50">
                     <input type="text" class="form-control" name="txtcaracteristicavalor" id="txtcaracteristicavalor" placeholder="Valor">
                   </div>

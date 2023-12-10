@@ -66,7 +66,7 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                       <th>Fecha</th>
                       <th>DNI/RUC</th>
                       <th>Nombre</th>
-                      <th>Estado</th>
+                      <th class="text-center">Estado</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -81,7 +81,7 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                     <td>{{fecha}}</td>
                     <td>{{clienteDocumento}}</td>
                     <td>{{clienteNombre}}</td>
-                    <td>
+                    <td align="center">
                       {{#if estado}}
                         <span class="text-success">REGISTRADO</span>
                       {{else}}

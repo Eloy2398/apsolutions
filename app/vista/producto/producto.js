@@ -123,7 +123,7 @@ $(function () {
             DOM.txtcaracteristicanombre.val('').focus();
         } else {
             DOM.txtcaracteristicanombre.focus();
-            toastr.error(`Característica ${nombre} existente`);
+            toastr.error(`Especificación ${nombre} existente`);
         }
     }
 
