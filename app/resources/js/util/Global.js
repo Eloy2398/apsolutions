@@ -218,14 +218,14 @@ var UtilGlobal = {
             }
         });
     },
-    setDataFormularioStr: function (nForm, data, prefixLength = 0) {
-        this.setDataFormulario(document.getElementById(nForm).elements, data, prefixLength);
+    setDataFormularioStr: function (nForm, data) {
+        this.setDataFormulario(document.getElementById(nForm).elements, data);
     },
-    setDataFormulario: function (elementsForm, data, prefixLength = 0) {
+    setDataFormulario: function (elementsForm, data) {
         let nEtiquetas = ['txt', 'cbo'];
         for (let name in data) {
             for (let index = 0; index < nEtiquetas.length; index++) {
-                let nEtiqueta = nEtiquetas[index] + (name.search("id") == 0 ? name.substring(2) : name);
+                let nEtiqueta = nEtiquetas[index] + (name.search("id") == 0 ? name.substring(2) : name).toLowerCase();
                 if (elementsForm[nEtiqueta] == undefined) continue;
                 elementsForm[nEtiqueta].value = data[name];
             }

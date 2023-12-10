@@ -15,8 +15,10 @@ $(function () {
         DOM.tbodyTable = $('#tbodyTable');
         DOM.opcionTable = $('#opcionTable');
         DOM.frmcriterio = $('#frmcriterio');
-        DOM.txtopcionnombre = $('#txtopcionnombre');
-        DOM.btnopcionagregar = $('#btnopcionagregar');
+        DOM.txtordenmostrar = DOM.frmcriterio.find('#txtordenmostrar');
+        DOM.txtnivelimportancia = DOM.frmcriterio.find('#txtnivelimportancia');
+        DOM.txtopcionnombre = DOM.frmcriterio.find('#txtopcionnombre');
+        DOM.btnopcionagregar = DOM.frmcriterio.find('#btnopcionagregar');
     }
 
     function setTemplates() {
@@ -62,6 +64,14 @@ $(function () {
         DOM.opcionTable.on('click', '.bx-trash', function (ev) {
             this.parentNode.parentNode.remove();
         });
+
+        DOM.txtordenmostrar.keypress(function (ev) {
+            return UtilNumber.soloNumeros(ev);
+        });
+
+        DOM.txtnivelimportancia.keypress(function (ev) {
+            return UtilNumber.soloNumeros(ev);
+        });
     }
 
     function criterioOpcionAgregar() {
@@ -98,6 +108,8 @@ $(function () {
         }, {
             id: elementsForm.hddid.value,
             nombre: elementsForm.txtnombre.value,
+            ordenMostrar: elementsForm.txtordenmostrar.value,
+            nivelImportancia: elementsForm.txtnivelimportancia.value,
             estado: true,
             criterioopcionList: obtenerCriterioOpcionList(),
         });
