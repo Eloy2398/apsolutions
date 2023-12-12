@@ -71,7 +71,12 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
 
                     <div class="col-lg-auto col-12 text-end">
                       <button class="btn btn-info" type="button" id="btn_filtrar">Filtrar</button>
-                      <button class="btn btn-success" type="button" id="btn_excel">Excel</button>
+                      <div class="d-inline-block position-relative">
+                        <button class="btn btn-success" type="button" id="btn_excel">Excel</button>
+                        <div class="spinner-border spinner-border-md text-primary" role="status" style="position: absolute; top: 0; bottom: 0; right: 0; left: 0; margin: auto; display: none;" id="spinner-excel">
+                          <span class="visually-hidden">Cargando...</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -84,7 +89,7 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                   <thead>
                     <tr>
                       <th>Fecha</th>
-                      <th>TIPO</th>
+                      <th class="text-center">Tipo</th>
                       <th class="text-end">Cantidad</th>
                       <th class="text-end">Precio</th>
                     </tr>
@@ -98,13 +103,7 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                 {{#this}}
                   <tr id="{{idMovimiento}}">
                     <td>{{fecha}}</td>
-                    <td>
-                      {{#if_ tipooperacion '==' '1'}}
-                        <span>INGRESO</span>
-                        {{else}}
-                          <span>EGRESO</span>
-                      {{/if_}}
-                    </td>
+                    <td align="center"><span>{{tipooperacion}}</span></td>
                     <td align="right">{{cantidad}}</td>
                     <td align="right">{{precio}}</td>
                   </tr>

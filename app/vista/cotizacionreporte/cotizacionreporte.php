@@ -71,7 +71,12 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
 
                     <div class="col-lg-auto col-12 text-end">
                       <button class="btn btn-info" type="button" id="btn_filtrar">Filtrar</button>
-                      <button class="btn btn-success" type="button" id="btn_excel">Excel</button>
+                      <div class="d-inline-block position-relative">
+                        <button class="btn btn-success" type="button" id="btn_excel">Excel</button>
+                        <div class="spinner-border spinner-border-md text-primary" role="status" style="position: absolute; top: 0; bottom: 0; right: 0; left: 0; margin: auto; display: none;" id="spinner-excel">
+                          <span class="visually-hidden">Cargando...</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -86,8 +91,8 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                       <th>Fecha</th>
                       <th>DNI/RUC</th>
                       <th>Nombre</th>
-                      <th>Origen</th>
-                      <th>Estado</th>
+                      <th class="text-center">Origen</th>
+                      <th class="text-center">Estado</th>
                       <!-- <th></th> -->
                     </tr>
                   </thead>
@@ -102,25 +107,8 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                     <td>{{fecha}}</td>
                     <td>{{docCliente}}</td>
                     <td>{{nomCliente}}</td>
-                    <td>
-                      {{#if_ origen '==' '1'}}
-                        <span>ADMINISTRADOR</span>
-                      {{/if_}}
-                      {{#if_ origen '==' '2'}}
-                        <span>WEB</span>
-                      {{/if_}}
-                    </td>
-                    <td>
-                      {{#if_ estado '==' '1'}}
-                        <span class="text-success">REGISTRADO</span>
-                      {{/if_}}
-                      {{#if_ estado '==' '2'}}
-                        <span class="text-danger">ANULADO</span>
-                      {{/if_}}
-                      {{#if_ estado '==' '3'}}
-                        <span class="text-info">PROCESADO</span>
-                      {{/if_}}
-                    </td>
+                    <td align="center"><span>{{origen}}</span></td>
+                    <td align="center"><span class="text-success">{{estado}}</span></td>
                     <!-- <td align="center">
                       <button data-action="editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" class="btn options"><i class="bx bx-search-alt me-1"></i></button>
                       <button data-action="pdf" data-bs-toggle="tooltip" data-bs-original-title="PDF" class="btn options">PDF</button>
@@ -128,7 +116,6 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                   </tr>
                 {{/this}}
               </script>
-
             </div>
 
           </div>

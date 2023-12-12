@@ -80,6 +80,7 @@ $(function () {
     }
 
     function exportarExcel() {
+        $(document.getElementById('spinner-excel')).show();
         new Ajxur.ApiGet({
             modelo: 'movimiento',
             metodo: 'reporte/excel',
@@ -99,6 +100,8 @@ $(function () {
             downloadLink.click();
 
             window.URL.revokeObjectURL(url);
+
+            $(document.getElementById('spinner-excel')).hide();
         }, (xhrError) => {
             toastr.error('Error inesperado');
         });

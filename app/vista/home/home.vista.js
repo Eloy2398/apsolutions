@@ -82,7 +82,7 @@ jQuery(function () {
 			september: 'Setiembre',
 			october: 'Octubre',
 			november: 'Noviembre',
-			dicember: 'Diciembre',
+			december: 'Diciembre',
 		}
 
 		objTime.dia.object = objDias;

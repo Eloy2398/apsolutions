@@ -116,8 +116,8 @@ $(function () {
             minLength: 3,
             source: function (request, response) {
                 new Ajxur.ApiGet({
-                    modelo: 'movimiento',
-                    metodo: 'buscarProducto',
+                    modelo: 'producto',
+                    metodo: 'buscar',
                     data_params: {
                         query: request.term
                     }
@@ -151,7 +151,7 @@ $(function () {
 
     function setAutocompleteBuscarCotizacion() {
         DOM.txtcotizacion.autocomplete({
-            minLength: 3,
+            minLength: 1,
             source: function (request, response) {
                 new Ajxur.ApiGet({
                     modelo: 'cotizacion',
@@ -170,8 +170,8 @@ $(function () {
         }).autocomplete("instance")._renderItem = function (ul, item) {
             return $("<li>")
                 .append("<div>"
-                    + "<span>" + item.id + "</span>"
-                    + "<span>" + item.nombreCliente + "</span>"
+                    + "<span style=\"width: 30px;\">" + item.id + "</span>"
+                    + "<span>" + (item.nombreCliente == null ? 'Cliente Web' : item.nombreCliente) + "</span>"
                     + "</div>")
                 .appendTo(ul);
         }
@@ -179,14 +179,19 @@ $(function () {
 
     function establecerIdCotizacion(pData) {
         if (pData == null) {
+            toastr.error('Cotización no encontrada');
             data.cotizacionId = 0;
             data.personaId = 0;
             DOM.txtanexo.val('');
+            arrDetalle = [];
+            renderArrDetalle();
         } else {
             data.cotizacionId = pData.id;
             data.personaId = pData.idPersona;
             DOM.txtanexo.val(pData.nombreCliente);
-            setTimeout(() => DOM.txtbusproducto.focus(), 100);
+            document.getElementById('cbotipo').value = 2;
+            setTimeout(() => DOM.txtanexo.focus(), 100);
+            obtenerDetallesCotizacion(pData.id);
         }
     }
 
@@ -310,6 +315,13 @@ $(function () {
         send_ajxur_request('ApiGet', 'listar', (xhr) => {
             DOM.tbodyTable.html(tpl.table(xhr.data));
         });
+    }
+
+    function obtenerDetallesCotizacion(id) {
+        UtilGlobal.sendAjxurRequest('cotizacion', 'ApiGet', 'obtenerDetalles', (xhr) => {
+            arrDetalle = xhr.data;
+            renderArrDetalle();
+        }, undefined, [id]);
     }
 
     function send_ajxur_request(requestType, method, fnOk, data_in, data_out) {
