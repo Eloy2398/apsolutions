@@ -25,6 +25,7 @@ class NavigationMenu
             ]),
             array('titulo' => 'Movimientos', 'icono' => 'bx-table', 'url' => '../movimiento/'),
             array('titulo' => 'Cotizaciones', 'icono' => 'bx-list-check', 'url' => '../cotizacion/'),
+            array('titulo' => 'Cotizaciones Web', 'icono' => 'bx-list-check', 'url' => '../cotizacion_web/'),
             array('titulo' => 'Clientes', 'icono' => 'bx-group', 'url' => '../cliente/'),
             array('titulo' => 'Proveedores', 'icono' => 'bx-group', 'url' => '../proveedor/'),
             array('titulo' => 'Empresa', 'icono' => 'bx-cog', 'submenu' => [
