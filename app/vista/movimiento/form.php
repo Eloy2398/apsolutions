@@ -68,7 +68,7 @@
                         <td>{{nombreProducto}}</td>
                         <td align="right">{{cantidad}}</td>
                         <td align="right">{{precio}}</td>
-                        {{#if_ id '>' '0'}}
+                        {{#if_ idProducto '>' '0'}}
                           <td align="center">
                             <i class="bx bx-trash cursor-pointer"></i>
                           </td>

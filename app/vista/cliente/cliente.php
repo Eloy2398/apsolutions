@@ -100,14 +100,20 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller']);
                       {{#this}}
                         <tr id="{{id}}">
                           <td>{{nombre}}</td>
+                          {{#if_ id '>' '1'}}
                           <td>{{tipodocumento}}</td>
+                          {{else}}
+                          <td>S/D</td>
+                          {{/if_}}
                           <td>{{documento}}</td>
                           <td>{{direccion}}</td>
                           <td>{{email}}</td>
                           <td>{{telefono}}</td>
                           <td class="text-center">
-                            <button data-action="editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" class="btn options"><i class="bx bx-edit-alt me-1"></i></button>
-                            <button data-action="eliminar" data-bs-toggle="tooltip" data-bs-original-title="Eliminar" class="btn options"><i class="bx bx-trash me-1"></i></button>
+                            {{#if_ id '>' '1'}}
+                              <button data-action="editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" class="btn options"><i class="bx bx-edit-alt me-1"></i></button>
+                              <button data-action="eliminar" data-bs-toggle="tooltip" data-bs-original-title="Eliminar" class="btn options"><i class="bx bx-trash me-1"></i></button>
+                            {{/if_}}
                           </td>
                         </tr>
                       {{/this}}
