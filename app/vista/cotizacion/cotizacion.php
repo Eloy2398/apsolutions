@@ -90,7 +90,7 @@ $oVista = $oAccesoVista->obtenerVista('default', ['controller', 'util-number', '
                     </td>
                     <td align="center">
                       <button data-action="editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" class="btn options"><i class="bx bx-search-alt me-1"></i></button>
-                      <button data-action="pdf" data-bs-toggle="tooltip" data-bs-original-title="PDF" class="btn options">PDF</button>
+                      <!-- <button data-action="pdf" data-bs-toggle="tooltip" data-bs-original-title="PDF" class="btn options">PDF</button> -->
                       <button data-action="anular" data-bs-toggle="tooltip" data-bs-original-title="Anular" class="btn options"><i class="bx bx-block me-1"></i></button>
                     </td>
                   </tr>
